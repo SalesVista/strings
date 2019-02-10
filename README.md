@@ -194,15 +194,15 @@ Naively attempts to normalize the given locale string into the language tag form
 
 E.g. turns `'en_US'` into `'en-US'`
 
-### `Strings.pluralize(str, locale)`
+### `Strings.toLower(str, locale)`
+
+Attempts to safely transform the given string into lowercase. If a locale is given, it will be normalized. If the locale-specific operation fails, it will fall back to a locale-agnostic operation.
+
+### `Strings.toPlural(str, locale)`
 
 Attempts to apply pluralization to the given string in a case-sensitive manner.
 
 E.g. turns `'plan'` into `'plans'`, turns `'box'` into `'boxes'`, and turns `'fly'` into `'flies'`
-
-### `Strings.toLower(str, locale)`
-
-Attempts to safely transform the given string into lowercase. If a locale is given, it will be normalized. If the locale-specific operation fails, it will fall back to a locale-agnostic operation.
 
 ### `Strings.toUpper(str, locale)`
 

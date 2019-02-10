@@ -27,7 +27,7 @@ class Strings {
     return String(c) !== Strings.toLower(c, locale)
   }
 
-  static pluralize (str, locale) {
+  static toPlural (str, locale) {
     if (!str) return ''
     let add = 's'
     str = String(str)
@@ -35,7 +35,7 @@ class Strings {
     if (~['y', 'Y'].indexOf(last)) {
       str = str.slice(0, -1)
       add = 'ies'
-    } else if (~['j', 'o', 's', 'x', 'z', 'J', 'O', 'S', 'X', 'Z'].indexOf(last)) {
+    } else if (~['h', 'j', 'o', 's', 'x', 'z', 'H', 'J', 'O', 'S', 'X', 'Z'].indexOf(last)) {
       add = 'es'
     }
     return Strings.isUpper(last, locale) ? str + Strings.toUpper(add, locale) : str + add
@@ -81,9 +81,9 @@ class Strings {
     else if (typeof opts.count === 'number') usePlural = opts.count !== 1
     // extract value
     if (usePlural) {
-      if (typeof val === 'string') val = Strings.pluralize(val, locale)
+      if (typeof val === 'string') val = Strings.toPlural(val, locale)
       else if (val.plural || val.other) val = val.plural || val.other
-      else if (val.singular || val.one) val = Strings.pluralize(val.singular || val.one, locale)
+      else if (val.singular || val.one) val = Strings.toPlural(val.singular || val.one, locale)
     } else if (typeof val !== 'string' && (val.singular || val.one)) {
       val = val.singular || val.one
     }
