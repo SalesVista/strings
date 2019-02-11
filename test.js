@@ -1,5 +1,5 @@
 const tap = require('tap')
-const Strings = require('./src/index')
+const Strings = require('./lib/index')
 
 tap.test('normalizeLocale', t => {
   t.strictEqual(Strings.normalizeLocale(), undefined)
