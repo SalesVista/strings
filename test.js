@@ -55,24 +55,169 @@ tap.test('isUpper', t => {
   t.end()
 })
 
+tap.test('toPlural', t => {
+  t.strictEqual(Strings.toPlural(), '')
+  t.strictEqual(Strings.toPlural(null), '')
+  t.strictEqual(Strings.toPlural(''), '')
+  t.strictEqual(Strings.toPlural('plan'), 'plans')
+  t.strictEqual(Strings.toPlural('PLAN'), 'PLANS')
+  t.strictEqual(Strings.toPlural('category'), 'categories')
+  t.strictEqual(Strings.toPlural('CATEGORY'), 'CATEGORIES')
+  t.strictEqual(Strings.toPlural('glass'), 'glasses')
+  t.strictEqual(Strings.toPlural('GLASS'), 'GLASSES')
+  t.strictEqual(Strings.toPlural('box'), 'boxes')
+  t.strictEqual(Strings.toPlural('BOX'), 'BOXES')
+  t.strictEqual(Strings.toPlural('batch'), 'batches')
+  t.strictEqual(Strings.toPlural('BATCH'), 'BATCHES')
+
+  t.strictEqual(Strings.toPlural('plan', {}), 'plans')
+  t.strictEqual(Strings.toPlural('plan', { locale: undefined }), 'plans')
+  t.strictEqual(Strings.toPlural('plan', { locale: null }), 'plans')
+
+  t.strictEqual(Strings.toPlural('plan', { locale: 'en-US' }), 'plans')
+  t.strictEqual(Strings.toPlural('plan', { locale: 'en_US' }), 'plans')
+  t.strictEqual(Strings.toPlural('plan', { locale: 'invalid locale' }), 'plans')
+  t.strictEqual(Strings.toPlural('PLAN', { locale: 'en-US' }), 'PLANS')
+  t.strictEqual(Strings.toPlural('PLAN', { locale: 'en_US' }), 'PLANS')
+  t.strictEqual(Strings.toPlural('PLAN', { locale: 'invalid locale' }), 'PLANS')
+
+  t.strictEqual(Strings.toPlural('plan', { suffix: 'tain' }), 'plantain')
+  t.strictEqual(Strings.toPlural('PLAN', { suffix: 'tain' }), 'PLANTAIN')
+
+  t.strictEqual(Strings.toPlural('plan', { locale: 'en-US', suffix: 'tain' }), 'plantain')
+  t.strictEqual(Strings.toPlural('PLAN', { locale: 'en-US', suffix: 'tain' }), 'PLANTAIN')
+  t.strictEqual(Strings.toPlural('plan', { locale: 'en_US', suffix: 'tain' }), 'plantain')
+  t.strictEqual(Strings.toPlural('PLAN', { locale: 'en_US', suffix: 'tain' }), 'PLANTAIN')
+  t.strictEqual(Strings.toPlural('plan', { locale: 'invalid locale', suffix: 'tain' }), 'plantain')
+  t.strictEqual(Strings.toPlural('PLAN', { locale: 'invalid locale', suffix: 'tain' }), 'PLANTAIN')
+
+  t.end()
+})
+
+tap.test('formatInt', t => {
+  t.strictEqual(Strings.formatInt(), 'NaN')
+  t.strictEqual(Strings.formatInt(null), '0')
+  t.strictEqual(Strings.formatInt(0), '0')
+  t.strictEqual(Strings.formatInt(1), '1')
+  t.strictEqual(Strings.formatInt(2), '2')
+  t.strictEqual(Strings.formatInt(1234567), '1,234,567')
+  t.strictEqual(Strings.formatInt('x'), 'NaN')
+  t.strictEqual(Strings.formatInt('9e10'), '90,000,000,000')
+  t.strictEqual(Strings.formatInt(Infinity), '∞')
+
+  t.strictEqual(Strings.formatInt(null, 'en-US'), '0')
+  t.strictEqual(Strings.formatInt(0, 'en-US'), '0')
+  t.strictEqual(Strings.formatInt(1, 'en-US'), '1')
+  t.strictEqual(Strings.formatInt(2, 'en-US'), '2')
+  t.strictEqual(Strings.formatInt(1234567, 'en-US'), '1,234,567')
+  t.strictEqual(Strings.formatInt('x', 'en-US'), 'NaN')
+  t.strictEqual(Strings.formatInt('9e10', 'en-US'), '90,000,000,000')
+  t.strictEqual(Strings.formatInt(Infinity, 'en-US'), '∞')
+
+  t.strictEqual(Strings.formatInt(null, 'en_US'), '0')
+  t.strictEqual(Strings.formatInt(0, 'en_US'), '0')
+  t.strictEqual(Strings.formatInt(1, 'en_US'), '1')
+  t.strictEqual(Strings.formatInt(2, 'en_US'), '2')
+  t.strictEqual(Strings.formatInt(1234567, 'en_US'), '1,234,567')
+  t.strictEqual(Strings.formatInt('x', 'en_US'), 'NaN')
+  t.strictEqual(Strings.formatInt('9e10', 'en_US'), '90,000,000,000')
+  t.strictEqual(Strings.formatInt(Infinity, 'en-US'), '∞')
+
+  t.strictEqual(Strings.formatInt(null, 'invalid locale'), 'null')
+  t.strictEqual(Strings.formatInt(0, 'invalid locale'), '0')
+  t.strictEqual(Strings.formatInt(1, 'invalid locale'), '1')
+  t.strictEqual(Strings.formatInt(2, 'invalid locale'), '2')
+  t.strictEqual(Strings.formatInt(1234567, 'invalid locale'), '1234567')
+  t.strictEqual(Strings.formatInt('x', 'invalid locale'), 'x')
+  t.strictEqual(Strings.formatInt('9e10', 'invalid locale'), '9e10')
+  t.strictEqual(Strings.formatInt(Infinity, 'invalid locale'), 'Infinity')
+
+  t.end()
+})
+
 tap.test('pluralize', t => {
   t.strictEqual(Strings.pluralize(), '')
   t.strictEqual(Strings.pluralize(null), '')
   t.strictEqual(Strings.pluralize(''), '')
-  t.strictEqual(Strings.pluralize('plan'), 'plans')
-  t.strictEqual(Strings.pluralize('PLAN'), 'PLANS')
-  t.strictEqual(Strings.pluralize('category'), 'categories')
-  t.strictEqual(Strings.pluralize('CATEGORY'), 'CATEGORIES')
-  t.strictEqual(Strings.pluralize('glass'), 'glasses')
-  t.strictEqual(Strings.pluralize('GLASS'), 'GLASSES')
-  t.strictEqual(Strings.pluralize('box'), 'boxes')
-  t.strictEqual(Strings.pluralize('BOX'), 'BOXES')
-  t.strictEqual(Strings.pluralize('plan', 'en-US'), 'plans')
-  t.strictEqual(Strings.pluralize('plan', 'en_US'), 'plans')
-  t.strictEqual(Strings.pluralize('plan', 'invalid locale'), 'plans')
-  t.strictEqual(Strings.pluralize('PLAN', 'en-US'), 'PLANS')
-  t.strictEqual(Strings.pluralize('PLAN', 'en_US'), 'PLANS')
-  t.strictEqual(Strings.pluralize('PLAN', 'invalid locale'), 'PLANS')
+  t.strictEqual(Strings.pluralize(1), '')
+  t.strictEqual(Strings.pluralize(0), '')
+  t.strictEqual(Strings.pluralize(2), '')
+
+  t.strictEqual(Strings.pluralize(1, null), '')
+  t.strictEqual(Strings.pluralize(1, ''), '')
+
+  t.strictEqual(Strings.pluralize(1, 'guy'), '1 guy')
+  t.strictEqual(Strings.pluralize(0, 'guy'), '0 guies')
+  t.strictEqual(Strings.pluralize(2, 'guy'), '2 guies')
+  t.strictEqual(Strings.pluralize(1000, 'guy'), '1,000 guies')
+  t.strictEqual(Strings.pluralize(1, 'GUY'), '1 GUY')
+  t.strictEqual(Strings.pluralize(0, 'GUY'), '0 GUIES')
+  t.strictEqual(Strings.pluralize(2, 'GUY'), '2 GUIES')
+  t.strictEqual(Strings.pluralize(1000, 'GUY'), '1,000 GUIES')
+
+  t.strictEqual(Strings.pluralize(1, 'guy', 's'), '1 guy')
+  t.strictEqual(Strings.pluralize(0, 'guy', 's'), '0 guys')
+  t.strictEqual(Strings.pluralize(2, 'guy', 's'), '2 guys')
+  t.strictEqual(Strings.pluralize(1000, 'guy', 's'), '1,000 guys')
+  t.strictEqual(Strings.pluralize(1, 'GUY', 's'), '1 GUY')
+  t.strictEqual(Strings.pluralize(0, 'GUY', 's'), '0 GUYS')
+  t.strictEqual(Strings.pluralize(2, 'GUY', 's'), '2 GUYS')
+  t.strictEqual(Strings.pluralize(1000, 'GUY', 's'), '1,000 GUYS')
+
+  t.strictEqual(Strings.pluralize(1, 'guy', {}), '1 guy')
+  t.strictEqual(Strings.pluralize(2, 'guy', {}), '2 guies')
+
+  t.strictEqual(Strings.pluralize(1, 'guy', { locale: 'en-US' }), '1 guy')
+  t.strictEqual(Strings.pluralize(0, 'guy', { locale: 'en-US' }), '0 guies')
+  t.strictEqual(Strings.pluralize(2, 'guy', { locale: 'en-US' }), '2 guies')
+  t.strictEqual(Strings.pluralize(1000, 'guy', { locale: 'en-US' }), '1,000 guies')
+  t.strictEqual(Strings.pluralize(1, 'GUY', { locale: 'en-US' }), '1 GUY')
+  t.strictEqual(Strings.pluralize(0, 'GUY', { locale: 'en-US' }), '0 GUIES')
+  t.strictEqual(Strings.pluralize(2, 'GUY', { locale: 'en-US' }), '2 GUIES')
+  t.strictEqual(Strings.pluralize(1000, 'GUY', { locale: 'en-US' }), '1,000 GUIES')
+
+  t.strictEqual(Strings.pluralize(1, 'guy', { locale: 'en_US' }), '1 guy')
+  t.strictEqual(Strings.pluralize(0, 'guy', { locale: 'en_US' }), '0 guies')
+  t.strictEqual(Strings.pluralize(2, 'guy', { locale: 'en_US' }), '2 guies')
+  t.strictEqual(Strings.pluralize(1000, 'guy', { locale: 'en_US' }), '1,000 guies')
+  t.strictEqual(Strings.pluralize(1, 'GUY', { locale: 'en_US' }), '1 GUY')
+  t.strictEqual(Strings.pluralize(0, 'GUY', { locale: 'en_US' }), '0 GUIES')
+  t.strictEqual(Strings.pluralize(2, 'GUY', { locale: 'en_US' }), '2 GUIES')
+  t.strictEqual(Strings.pluralize(1000, 'GUY', { locale: 'en_US' }), '1,000 GUIES')
+
+  t.strictEqual(Strings.pluralize(1, 'guy', { locale: 'invalid locale' }), '1 guy')
+  t.strictEqual(Strings.pluralize(0, 'guy', { locale: 'invalid locale' }), '0 guies')
+  t.strictEqual(Strings.pluralize(2, 'guy', { locale: 'invalid locale' }), '2 guies')
+  t.strictEqual(Strings.pluralize(1000, 'guy', { locale: 'invalid locale' }), '1000 guies')
+  t.strictEqual(Strings.pluralize(1, 'GUY', { locale: 'invalid locale' }), '1 GUY')
+  t.strictEqual(Strings.pluralize(0, 'GUY', { locale: 'invalid locale' }), '0 GUIES')
+  t.strictEqual(Strings.pluralize(2, 'GUY', { locale: 'invalid locale' }), '2 GUIES')
+  t.strictEqual(Strings.pluralize(1000, 'GUY', { locale: 'invalid locale' }), '1000 GUIES')
+
+  t.strictEqual(Strings.pluralize(1, 'guy', { suffix: 's' }), '1 guy')
+  t.strictEqual(Strings.pluralize(0, 'guy', { suffix: 's' }), '0 guys')
+  t.strictEqual(Strings.pluralize(2, 'guy', { suffix: 's' }), '2 guys')
+  t.strictEqual(Strings.pluralize(1000, 'guy', { suffix: 's' }), '1,000 guys')
+  t.strictEqual(Strings.pluralize(1, 'GUY', { suffix: 's' }), '1 GUY')
+  t.strictEqual(Strings.pluralize(0, 'GUY', { suffix: 's' }), '0 GUYS')
+  t.strictEqual(Strings.pluralize(2, 'GUY', { suffix: 's' }), '2 GUYS')
+  t.strictEqual(Strings.pluralize(1000, 'GUY', { suffix: 's' }), '1,000 GUYS')
+
+  t.strictEqual(Strings.pluralize(1, 'guy', { suffix: 's', locale: 'en-US' }), '1 guy')
+  t.strictEqual(Strings.pluralize(0, 'guy', { suffix: 's', locale: 'en-US' }), '0 guys')
+  t.strictEqual(Strings.pluralize(2, 'guy', { suffix: 's', locale: 'en-US' }), '2 guys')
+  t.strictEqual(Strings.pluralize(1000, 'guy', { suffix: 's', locale: 'en-US' }), '1,000 guys')
+  t.strictEqual(Strings.pluralize(1, 'GUY', { suffix: 's', locale: 'en-US' }), '1 GUY')
+  t.strictEqual(Strings.pluralize(0, 'GUY', { suffix: 's', locale: 'en-US' }), '0 GUYS')
+  t.strictEqual(Strings.pluralize(2, 'GUY', { suffix: 's', locale: 'en-US' }), '2 GUYS')
+  t.strictEqual(Strings.pluralize(1000, 'GUY', { suffix: 's', locale: 'en-US' }), '1,000 GUYS')
+
+  t.strictEqual(Strings.pluralize(1000, 'guy', { suffix: 's', locale: 'invalid locale' }), '1000 guys')
+  t.strictEqual(Strings.pluralize(1000, 'GUY', { suffix: 's', locale: 'invalid locale' }), '1000 GUYS')
+
+  t.strictEqual(Strings.pluralize('2', 'plan'), '2 plans')
+  t.strictEqual(Strings.pluralize('xyz', 'plan'), '0 plans')
+
   t.end()
 })
 
@@ -85,6 +230,7 @@ tap.test('abbreviate', t => {
   t.strictEqual(Strings.abbreviate('one two three'), 'ott')
   t.strictEqual(Strings.abbreviate('One Two Three'), 'OTT')
   t.strictEqual(Strings.abbreviate('One  Two  Three'), 'OTT')
+  t.strictEqual(Strings.abbreviate(' One  Two  Three '), 'OTT')
   t.end()
 })
 
@@ -234,6 +380,18 @@ tap.test('static get', t => {
   t.strictEqual(Strings.get(Strings.ANNUAL_CONTRACT_VALUE, strings, { uc: true, abbrev: true }), 'ACV')
   t.strictEqual(Strings.get(strings, invalidKey, { uc: true, abbrev: true }), '')
   t.strictEqual(Strings.get(invalidKey, strings, { uc: true, abbrev: true }), '')
+
+  t.strictEqual(Strings.get(null, 'guy', { count: 2, suffix: 's', strict: false }), 'guys')
+  t.strictEqual(Strings.get('guy', null, { count: 2, suffix: 's', strict: false }), 'guys')
+
+  const p = {
+    person: {
+      singular: 'person',
+      plural: 'people'
+    }
+  }
+  t.strictEqual(Strings.get(p, 'person', { count: 1, strict: false }), 'person')
+  t.strictEqual(Strings.get(p, 'person', { count: 2, strict: false }), 'people')
 
   // strings object supports wrapper
   const wrapper = {
@@ -566,6 +724,10 @@ tap.test('defaults', t => {
   t.strictEqual(d.getPlural(Strings.REP), 'Reps')
   t.strictEqual(d.getSingular(Strings.TEAM), 'Team')
   t.strictEqual(d.getPlural(Strings.TEAM), 'Teams')
+  t.strictEqual(d.getSingular(Strings.ADJUSTMENT), 'Adjustment')
+  t.strictEqual(d.getPlural(Strings.ADJUSTMENT), 'Adjustments')
+  t.strictEqual(d.getSingular(Strings.BATCH), 'Batch')
+  t.strictEqual(d.getPlural(Strings.BATCH), 'Batches')
 
   t.end()
 })

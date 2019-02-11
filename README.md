@@ -74,8 +74,10 @@ s.get(Strings.EXTENDED_AMOUNT) //=> Revenue
 Each method can also accept an additional options object supporting the following properties:
 
 - `plural` (boolean) or `count` (number): to more easily support conditional plurality using `get()`
+- `suffix` (string): to customize what gets added to the value when auto-pluralization is used
 - `lc` (boolean) or `uc` (boolean): to transform the display value to lowercase or uppercase, respectively
 - `abbrev` (boolean): to abbreviate the display value to the first letter of each word in the string
+- `strict` (boolean, default `true`): to use an empty string (strict=true) or key (strict=false) when key not found in strings or defaults
 - `locale` (string): to make sure case-sensitivity respects rules and characters for the user's language and region
 
 ## Primary API
@@ -94,9 +96,11 @@ For convenience, the first two arguments are interchangeable.
 
 - `plural` (boolean): whether to use the plural form or not (mutually exclusive with `count`)
 - `count` (number): number of items that should be translated for plurality (mutually exclusive with `plural`)
+- `suffix` (string): a custom suffix to add to the display string value when plurality is needed and no explicit plural value is defined
 - `lc` (boolean): transform the display string to lowercase (mutually exclusive with `uc`)
 - `uc` (boolean): transform the display string to uppercase (mutually exclusive with `lc`)
 - `abbrev` (boolean): transform the display string to its abbreviated form
+- `strict` (boolean, default `true`): whether keys should be interpreted strictly (required in strings or defaults) or loosely (not required in strings or defaults) - in strict mode, an empty string will be returned when key is not found; in loose mode, the key will be used as the value when key is not found
 - `locale` (string): the user's locale e.g. `'en-US'` or `'en_US'`
 
 ### `Strings.getSingular(strings, key, opts)`
@@ -155,7 +159,9 @@ Shortcut to get the plural value defined for `key`. If a singular value is defin
 
 ## Supported Keys
 
+- `Strings.ADJUSTMENT`
 - `Strings.ANNUAL_CONTRACT_VALUE`
+- `Strings.BATCH`
 - `Strings.CATEGORY`
 - `Strings.CLOSED`
 - `Strings.COMPENSATION`
@@ -184,6 +190,10 @@ Abbreviate the given string by grabbing the first letter/character of each word,
 
 E.g. turns `'Annual Contract Value'` into `'ACV'`
 
+### `Strings.formatInt(int, locale)`
+
+Attempts to format the given integer into a string per the given locale.
+
 ### `Strings.isUpper(str, locale)`
 
 Returns a boolean indicating whether the given string is uppercase (in the given locale) or not.
@@ -194,15 +204,29 @@ Naively attempts to normalize the given locale string into the language tag form
 
 E.g. turns `'en_US'` into `'en-US'`
 
-### `Strings.pluralize(str, locale)`
+### `Strings.pluralize(count, noun, opts)`
 
-Attempts to apply pluralization to the given string in a case-sensitive manner.
+Combine the given count and noun into a single formatted string, pluralizing the noun if necessary.
 
-E.g. turns `'plan'` into `'plans'`, turns `'box'` into `'boxes'`, and turns `'fly'` into `'flies'`
+Supported options include:
+
+- `suffix` (string): add this to the string instead of making a best-guess effort when pluralization is needed
+- `locale` (string): to format the integer and respect case-sensitivity in a language-specific way
 
 ### `Strings.toLower(str, locale)`
 
 Attempts to safely transform the given string into lowercase. If a locale is given, it will be normalized. If the locale-specific operation fails, it will fall back to a locale-agnostic operation.
+
+### `Strings.toPlural(str, opts)`
+
+Transforms the given string into its plural form, respecting case.
+
+E.g. turns `'plan'` into `'plans'`, turns `'box'` into `'boxes'`, and turns `'fly'` into `'flies'`
+
+Supported options include:
+
+- `suffix` (string): add this to the string instead of making a best-guess effort
+- `locale` (string): to respect case-sensitivity in a language-specific way
 
 ### `Strings.toUpper(str, locale)`
 
