@@ -1,5 +1,5 @@
 const tap = require('tap')
-const Strings = require('./lib/index')
+const Strings = require('./src/index')
 
 tap.test('normalizeLocale', t => {
   t.strictEqual(Strings.normalizeLocale(), undefined)
@@ -724,6 +724,10 @@ tap.test('defaults', t => {
   t.strictEqual(d.getPlural(Strings.REP), 'Reps')
   t.strictEqual(d.getSingular(Strings.TEAM), 'Team')
   t.strictEqual(d.getPlural(Strings.TEAM), 'Teams')
+  t.strictEqual(d.getSingular(Strings.ADJUSTMENT), 'Adjustment')
+  t.strictEqual(d.getPlural(Strings.ADJUSTMENT), 'Adjustments')
+  t.strictEqual(d.getSingular(Strings.BATCH), 'Batch')
+  t.strictEqual(d.getPlural(Strings.BATCH), 'Batches')
 
   t.end()
 })

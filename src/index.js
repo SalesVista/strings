@@ -200,6 +200,8 @@ Strings.DISPUTE = 'dispute'
 Strings.MEMBER = 'member'
 Strings.REP = 'rep'
 Strings.TEAM = 'team'
+Strings.ADJUSTMENT = 'adjustment'
+Strings.BATCH = 'batch'
 
 Strings.DEFAULTS = {
   [Strings.GROSS_MARGIN]: {
@@ -248,7 +250,9 @@ Strings.DEFAULTS = {
   [Strings.DISPUTE]: 'Dispute',
   [Strings.MEMBER]: 'Member',
   [Strings.REP]: 'Rep',
-  [Strings.TEAM]: 'Team'
+  [Strings.TEAM]: 'Team',
+  [Strings.ADJUSTMENT]: 'Adjustment',
+  [Strings.BATCH]: 'Batch'
 }
 
 module.exports = Strings
