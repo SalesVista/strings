@@ -1,7 +1,21 @@
 class Strings {
   static normalizeLocale (locale) {
     if (!locale) return undefined
-    return String(locale).replace(/_/g, '-')
+
+    // split on comma, map to value + q, find first highest q, grab value
+    let tokens
+    locale = String(locale).split(',').map(l => {
+      tokens = l.trim().split(';')
+      return {
+        l: tokens[0].trim(),
+        q: (tokens[1] && Number(tokens[1].replace('q', '').replace('=', ''))) || 1
+      }
+    }).reduce((a, o) => {
+      return (o.l && o.l !== '*' && (!a.l || o.q > a.q)) ? o : a
+    }, { q: 0 }).l
+
+    // then replace _ with -
+    return locale && locale.replace(/_/g, '-')
   }
 
   static toUpper (s, locale) {
