@@ -7,6 +7,20 @@ tap.test('normalizeLocale', t => {
   t.strictEqual(Strings.normalizeLocale(''), undefined)
   t.strictEqual(Strings.normalizeLocale('en-US'), 'en-US')
   t.strictEqual(Strings.normalizeLocale('en_US'), 'en-US')
+
+  t.strictEqual(Strings.normalizeLocale('fr-CH, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5'), 'fr-CH')
+  t.strictEqual(Strings.normalizeLocale('fr-CH,fr;q=0.9,en;q=0.8,de;q=0.7,*;q=0.5'), 'fr-CH')
+  t.strictEqual(Strings.normalizeLocale('fr,fr-CH;q=0.9,en;q=0.8,de;q=0.7,*;q=0.5'), 'fr')
+
+  t.strictEqual(Strings.normalizeLocale('fr ; q = 0.9 , en_US; q=1, en;q =1 ,*'), 'en-US')
+  t.strictEqual(Strings.normalizeLocale('*,en'), 'en')
+  t.strictEqual(Strings.normalizeLocale('*, en'), 'en')
+  t.strictEqual(Strings.normalizeLocale('* ,en'), 'en')
+  t.strictEqual(Strings.normalizeLocale('* ,en;q'), 'en')
+  t.strictEqual(Strings.normalizeLocale('* ,en;q='), 'en')
+  t.strictEqual(Strings.normalizeLocale('* ,en;q=0'), 'en')
+  t.strictEqual(Strings.normalizeLocale('*'), undefined)
+
   t.end()
 })
 

@@ -200,9 +200,15 @@ Returns a boolean indicating whether the given string is uppercase (in the given
 
 ### `Strings.normalizeLocale(locale)`
 
-Naively attempts to normalize the given locale string into the language tag format expected by [`toLocaleUpperCase`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleUpperCase) or [`toLocaleLowerCase`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase), by replacing underscores with hyphens.
+Attempts to normalize the given locale string into the format expected by [`toLocaleUpperCase`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleUpperCase) or [`toLocaleLowerCase`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase).
+
+POSIX locales are converted to a [BCP 47](https://tools.ietf.org/html/bcp47) language tag by replacing underscores with hyphens.
 
 E.g. turns `'en_US'` into `'en-US'`
+
+String values in `Accept-Language` header format are also handled such that the first locale encountered with the greatest [quality value](https://developer.mozilla.org/en-US/docs/Glossary/quality_values) will be returned. A value of `'*'` will be ignored.
+
+E.g. turns `'fr-CH,fr;q=0.9,en;q=0.8,de;q=0.7,*;q=0.5'` into `'fr-CH'`
 
 ### `Strings.pluralize(count, noun, opts)`
 
