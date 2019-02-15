@@ -78,15 +78,19 @@ class Strings {
     noun = String(noun)
     if (typeof count !== 'number') count = Number(count)
     if (Number.isNaN(count)) count = 0
-    let suffix, locale
+    let suffix, locale, plural
     if (typeof opts === 'string') {
       suffix = opts
     } else {
       opts = opts || {}
       suffix = opts.suffix
       locale = opts.locale
+      plural = opts.plural || opts.other
     }
-    return Strings.formatInt(count, locale) + ' ' + (count !== 1 ? Strings.toPlural(noun, { suffix, locale }) : noun)
+    if (count !== 1) {
+      noun = plural || Strings.toPlural(noun, { suffix, locale })
+    }
+    return Strings.formatInt(count, locale) + ' ' + noun
   }
 
   static abbreviate (str) {

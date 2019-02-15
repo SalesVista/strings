@@ -216,7 +216,8 @@ Combine the given count and noun into a single formatted string, pluralizing the
 
 Supported options include:
 
-- `suffix` (string): add this to the string instead of making a best-guess effort when pluralization is needed
+- `plural` (string): string to use as plural noun when needed (mutually exclusive with `suffix`)
+- `suffix` (string): add this to the string instead of making a best-guess effort when pluralization is needed (mutually exclusive with `plural`)
 - `locale` (string): to format the integer and respect case-sensitivity in a language-specific way
 
 ### `Strings.toLower(str, locale)`

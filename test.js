@@ -232,6 +232,17 @@ tap.test('pluralize', t => {
   t.strictEqual(Strings.pluralize('2', 'plan'), '2 plans')
   t.strictEqual(Strings.pluralize('xyz', 'plan'), '0 plans')
 
+  t.strictEqual(Strings.pluralize(1, 'person', { plural: 'people' }), '1 person')
+  t.strictEqual(Strings.pluralize(1, 'person', { other: 'people' }), '1 person')
+  t.strictEqual(Strings.pluralize(1000, 'person', { plural: 'people' }), '1,000 people')
+  t.strictEqual(Strings.pluralize(1000, 'person', { other: 'people' }), '1,000 people')
+  t.strictEqual(Strings.pluralize(1, 'PERSON', { plural: 'people' }), '1 PERSON')
+  t.strictEqual(Strings.pluralize(1, 'PERSON', { other: 'people' }), '1 PERSON')
+  t.strictEqual(Strings.pluralize(1000, 'PERSON', { plural: 'people' }), '1,000 people')
+  t.strictEqual(Strings.pluralize(1000, 'PERSON', { other: 'people' }), '1,000 people')
+  t.strictEqual(Strings.pluralize(1000, 'PERSON', { plural: 'PEOPLE' }), '1,000 PEOPLE')
+  t.strictEqual(Strings.pluralize(1000, 'PERSON', { other: 'PEOPLE' }), '1,000 PEOPLE')
+
   t.end()
 })
 
@@ -404,8 +415,8 @@ tap.test('static get', t => {
       plural: 'people'
     }
   }
-  t.strictEqual(Strings.get(p, 'person', { count: 1, strict: false }), 'person')
-  t.strictEqual(Strings.get(p, 'person', { count: 2, strict: false }), 'people')
+  t.strictEqual(Strings.get(p, 'person', { count: 1 }), 'person')
+  t.strictEqual(Strings.get(p, 'person', { count: 2 }), 'people')
 
   // strings object supports wrapper
   const wrapper = {
