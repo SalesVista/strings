@@ -148,7 +148,10 @@ class Strings {
     } else if (typeof val !== 'string' && (val.singular || val.one)) {
       val = val.singular || val.one
     }
-    if (typeof val !== 'string') return ''
+    if (typeof val !== 'string') {
+      if (opts.strict) return ''
+      val = key
+    }
     // should now have val to use, apply transformational opts
     if (opts.lc) val = Strings.toLower(val, locale)
     else if (opts.uc) val = Strings.toUpper(val, locale)

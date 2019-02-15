@@ -411,11 +411,10 @@ tap.test('static get', t => {
 
   const p = {
     person: {
-      singular: 'person',
       plural: 'people'
     }
   }
-  t.strictEqual(Strings.get(p, 'person', { count: 1 }), 'person')
+  t.strictEqual(Strings.get(p, 'person', { count: 1, strict: false }), 'person') // strict=false will fallback to key as singular
   t.strictEqual(Strings.get(p, 'person', { count: 2 }), 'people')
 
   // strings object supports wrapper
