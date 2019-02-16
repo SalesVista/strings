@@ -21,6 +21,11 @@ tap.test('normalizeLocale', t => {
   t.strictEqual(Strings.normalizeLocale('* ,en;q=0'), 'en')
   t.strictEqual(Strings.normalizeLocale('*'), undefined)
 
+  t.strictEqual(Strings.normalizeLocale(['en;q=0.8', 'fr-CH, fr;q=0.9', 'de;q=0.7,*;q=0.5']), 'fr-CH')
+  t.strictEqual(Strings.normalizeLocale(['*', '', null, undefined, 'en;q=0.8']), 'en')
+  t.strictEqual(Strings.normalizeLocale(['*']), undefined)
+  t.strictEqual(Strings.normalizeLocale([]), undefined)
+
   t.end()
 })
 

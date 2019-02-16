@@ -4,7 +4,7 @@ class Strings {
 
     // split on comma, map to value + q, find first highest q, grab value
     let tokens
-    locale = String(locale).split(',').map(l => {
+    locale = [].concat(locale).filter(Boolean).join(',').split(',').map(l => {
       tokens = l.trim().split(';')
       return {
         l: tokens[0].trim(),
