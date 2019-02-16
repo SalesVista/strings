@@ -78,7 +78,7 @@ Each method can also accept an additional options object supporting the followin
 - `lc` (boolean) or `uc` (boolean): to transform the display value to lowercase or uppercase, respectively
 - `abbrev` (boolean): to abbreviate the display value to the first letter of each word in the string
 - `strict` (boolean, default `true`): to use an empty string (strict=true) or key (strict=false) when key not found in strings or defaults
-- `locale` (string): to make sure case-sensitivity respects rules and characters for the user's language and region
+- `locale` (string or array): to make sure case-sensitivity respects rules and characters for the user's language and region
 
 ## Primary API
 
@@ -101,7 +101,7 @@ For convenience, the first two arguments are interchangeable.
 - `uc` (boolean): transform the display string to uppercase (mutually exclusive with `lc`)
 - `abbrev` (boolean): transform the display string to its abbreviated form
 - `strict` (boolean, default `true`): whether keys should be interpreted strictly (required in strings or defaults) or loosely (not required in strings or defaults) - in strict mode, an empty string will be returned when key is not found; in loose mode, the key will be used as the value when key is not found
-- `locale` (string): the user's locale e.g. `'en-US'` or `'en_US'`
+- `locale` (string or array): the user's locale e.g. `'en-US'` or `'en_US'`
 
 ### `Strings.getSingular(strings, key, opts)`
 
@@ -216,8 +216,9 @@ Combine the given count and noun into a single formatted string, pluralizing the
 
 Supported options include:
 
-- `suffix` (string): add this to the string instead of making a best-guess effort when pluralization is needed
-- `locale` (string): to format the integer and respect case-sensitivity in a language-specific way
+- `plural` (string): string to use as plural noun when needed (mutually exclusive with `suffix`)
+- `suffix` (string): add this to the string instead of making a best-guess effort when pluralization is needed (mutually exclusive with `plural`)
+- `locale` (string or array): to format the integer and respect case-sensitivity in a language-specific way
 
 ### `Strings.toLower(str, locale)`
 
@@ -232,7 +233,7 @@ E.g. turns `'plan'` into `'plans'`, turns `'box'` into `'boxes'`, and turns `'fl
 Supported options include:
 
 - `suffix` (string): add this to the string instead of making a best-guess effort
-- `locale` (string): to respect case-sensitivity in a language-specific way
+- `locale` (string or array): to respect case-sensitivity in a language-specific way
 
 ### `Strings.toUpper(str, locale)`
 

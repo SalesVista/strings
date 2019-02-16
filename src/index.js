@@ -4,7 +4,7 @@ class Strings {
 
     // split on comma, map to value + q, find first highest q, grab value
     let tokens
-    locale = String(locale).split(',').map(l => {
+    locale = [].concat(locale).filter(Boolean).join(',').split(',').map(l => {
       tokens = l.trim().split(';')
       return {
         l: tokens[0].trim(),
@@ -78,15 +78,19 @@ class Strings {
     noun = String(noun)
     if (typeof count !== 'number') count = Number(count)
     if (Number.isNaN(count)) count = 0
-    let suffix, locale
+    let suffix, locale, plural
     if (typeof opts === 'string') {
       suffix = opts
     } else {
       opts = opts || {}
       suffix = opts.suffix
       locale = opts.locale
+      plural = opts.plural || opts.other
     }
-    return Strings.formatInt(count, locale) + ' ' + (count !== 1 ? Strings.toPlural(noun, { suffix, locale }) : noun)
+    if (count !== 1) {
+      noun = plural || Strings.toPlural(noun, { suffix, locale })
+    }
+    return Strings.formatInt(count, locale) + ' ' + noun
   }
 
   static abbreviate (str) {
@@ -144,7 +148,10 @@ class Strings {
     } else if (typeof val !== 'string' && (val.singular || val.one)) {
       val = val.singular || val.one
     }
-    if (typeof val !== 'string') return ''
+    if (typeof val !== 'string') {
+      if (opts.strict) return ''
+      val = key
+    }
     // should now have val to use, apply transformational opts
     if (opts.lc) val = Strings.toLower(val, locale)
     else if (opts.uc) val = Strings.toUpper(val, locale)

@@ -21,6 +21,11 @@ tap.test('normalizeLocale', t => {
   t.strictEqual(Strings.normalizeLocale('* ,en;q=0'), 'en')
   t.strictEqual(Strings.normalizeLocale('*'), undefined)
 
+  t.strictEqual(Strings.normalizeLocale(['en;q=0.8', 'fr-CH, fr;q=0.9', 'de;q=0.7,*;q=0.5']), 'fr-CH')
+  t.strictEqual(Strings.normalizeLocale(['*', '', null, undefined, 'en;q=0.8']), 'en')
+  t.strictEqual(Strings.normalizeLocale(['*']), undefined)
+  t.strictEqual(Strings.normalizeLocale([]), undefined)
+
   t.end()
 })
 
@@ -32,6 +37,7 @@ tap.test('toUpper', t => {
   t.strictEqual(Strings.toUpper('abc', 'en-US'), 'ABC')
   t.strictEqual(Strings.toUpper('abc', 'en_US'), 'ABC')
   t.strictEqual(Strings.toUpper('abc', 'invalid locale'), 'ABC')
+  t.strictEqual(Strings.toUpper('abc', ['en-US', 'invalid locale']), 'ABC')
   t.strictEqual(Strings.toUpper('лександра'), 'ЛЕКСАНДРА')
   t.strictEqual(Strings.toUpper('łukasz'), 'ŁUKASZ')
   t.end()
@@ -45,6 +51,7 @@ tap.test('toLower', t => {
   t.strictEqual(Strings.toLower('ABC', 'en-US'), 'abc')
   t.strictEqual(Strings.toLower('ABC', 'en_US'), 'abc')
   t.strictEqual(Strings.toLower('ABC', 'invalid locale'), 'abc')
+  t.strictEqual(Strings.toLower('ABC', ['en-US', 'invalid locale']), 'abc')
   t.strictEqual(Strings.toLower('ЛЕКСАНДРА'), 'лександра')
   t.strictEqual(Strings.toLower('ŁUKASZ'), 'łukasz')
   t.end()
@@ -62,6 +69,8 @@ tap.test('isUpper', t => {
   t.strictEqual(Strings.isUpper('A', 'en_US'), true)
   t.strictEqual(Strings.isUpper('a', 'invalid locale'), false)
   t.strictEqual(Strings.isUpper('A', 'invalid locale'), true)
+  t.strictEqual(Strings.isUpper('a', ['en-US', 'invalid locale']), false)
+  t.strictEqual(Strings.isUpper('A', ['en-US', 'invalid locale']), true)
   t.strictEqual(Strings.isUpper('л'), false)
   t.strictEqual(Strings.isUpper('ł'), false)
   t.strictEqual(Strings.isUpper('Л'), true)
@@ -91,9 +100,11 @@ tap.test('toPlural', t => {
   t.strictEqual(Strings.toPlural('plan', { locale: 'en-US' }), 'plans')
   t.strictEqual(Strings.toPlural('plan', { locale: 'en_US' }), 'plans')
   t.strictEqual(Strings.toPlural('plan', { locale: 'invalid locale' }), 'plans')
+  t.strictEqual(Strings.toPlural('plan', { locale: ['en-US', 'invalid locale'] }), 'plans')
   t.strictEqual(Strings.toPlural('PLAN', { locale: 'en-US' }), 'PLANS')
   t.strictEqual(Strings.toPlural('PLAN', { locale: 'en_US' }), 'PLANS')
   t.strictEqual(Strings.toPlural('PLAN', { locale: 'invalid locale' }), 'PLANS')
+  t.strictEqual(Strings.toPlural('PLAN', { locale: ['en-US', 'invalid locale'] }), 'PLANS')
 
   t.strictEqual(Strings.toPlural('plan', { suffix: 'tain' }), 'plantain')
   t.strictEqual(Strings.toPlural('PLAN', { suffix: 'tain' }), 'PLANTAIN')
@@ -104,6 +115,7 @@ tap.test('toPlural', t => {
   t.strictEqual(Strings.toPlural('PLAN', { locale: 'en_US', suffix: 'tain' }), 'PLANTAIN')
   t.strictEqual(Strings.toPlural('plan', { locale: 'invalid locale', suffix: 'tain' }), 'plantain')
   t.strictEqual(Strings.toPlural('PLAN', { locale: 'invalid locale', suffix: 'tain' }), 'PLANTAIN')
+  t.strictEqual(Strings.toPlural('plan', { locale: ['en-US', 'invalid locale'], suffix: 'tain' }), 'plantain')
 
   t.end()
 })
@@ -145,6 +157,8 @@ tap.test('formatInt', t => {
   t.strictEqual(Strings.formatInt('x', 'invalid locale'), 'x')
   t.strictEqual(Strings.formatInt('9e10', 'invalid locale'), '9e10')
   t.strictEqual(Strings.formatInt(Infinity, 'invalid locale'), 'Infinity')
+
+  t.strictEqual(Strings.formatInt(1234567, ['en_US', 'invalid locale']), '1,234,567')
 
   t.end()
 })
@@ -229,8 +243,21 @@ tap.test('pluralize', t => {
   t.strictEqual(Strings.pluralize(1000, 'guy', { suffix: 's', locale: 'invalid locale' }), '1000 guys')
   t.strictEqual(Strings.pluralize(1000, 'GUY', { suffix: 's', locale: 'invalid locale' }), '1000 GUYS')
 
+  t.strictEqual(Strings.pluralize(1000, 'guy', { suffix: 's', locale: ['en-US', 'invalid locale'] }), '1,000 guys')
+
   t.strictEqual(Strings.pluralize('2', 'plan'), '2 plans')
   t.strictEqual(Strings.pluralize('xyz', 'plan'), '0 plans')
+
+  t.strictEqual(Strings.pluralize(1, 'person', { plural: 'people' }), '1 person')
+  t.strictEqual(Strings.pluralize(1, 'person', { other: 'people' }), '1 person')
+  t.strictEqual(Strings.pluralize(1000, 'person', { plural: 'people' }), '1,000 people')
+  t.strictEqual(Strings.pluralize(1000, 'person', { other: 'people' }), '1,000 people')
+  t.strictEqual(Strings.pluralize(1, 'PERSON', { plural: 'people' }), '1 PERSON')
+  t.strictEqual(Strings.pluralize(1, 'PERSON', { other: 'people' }), '1 PERSON')
+  t.strictEqual(Strings.pluralize(1000, 'PERSON', { plural: 'people' }), '1,000 people')
+  t.strictEqual(Strings.pluralize(1000, 'PERSON', { other: 'people' }), '1,000 people')
+  t.strictEqual(Strings.pluralize(1000, 'PERSON', { plural: 'PEOPLE' }), '1,000 PEOPLE')
+  t.strictEqual(Strings.pluralize(1000, 'PERSON', { other: 'PEOPLE' }), '1,000 PEOPLE')
 
   t.end()
 })
@@ -387,6 +414,8 @@ tap.test('static get', t => {
   t.strictEqual(Strings.get(strings, invalidKey, { count: 2, locale: 'en_US' }), '')
   t.strictEqual(Strings.get(invalidKey, strings, { count: 2, locale: 'en-US' }), '')
 
+  t.strictEqual(Strings.get(strings, Strings.PLAN, { count: 2, locale: ['en_US', 'invalid locale'] }), 'Programs')
+
   // 3rd arg opts object with uc boolean and abbrev boolean
   t.strictEqual(Strings.get(strings, Strings.GROSS_MARGIN, { uc: true, abbrev: true }), 'P')
   t.strictEqual(Strings.get(Strings.GROSS_MARGIN, strings, { uc: true, abbrev: true }), 'P')
@@ -400,12 +429,11 @@ tap.test('static get', t => {
 
   const p = {
     person: {
-      singular: 'person',
       plural: 'people'
     }
   }
-  t.strictEqual(Strings.get(p, 'person', { count: 1, strict: false }), 'person')
-  t.strictEqual(Strings.get(p, 'person', { count: 2, strict: false }), 'people')
+  t.strictEqual(Strings.get(p, 'person', { count: 1, strict: false }), 'person') // strict=false will fallback to key as singular
+  t.strictEqual(Strings.get(p, 'person', { count: 2 }), 'people')
 
   // strings object supports wrapper
   const wrapper = {
@@ -670,7 +698,7 @@ tap.test('instance getPlural', t => {
 
 tap.test('extra cases', t => {
   const w = Strings.wrap({
-    locale: 'en-US',
+    locale: ['en-US,en-AU;q=0.8', '*'],
     strings: {
       [Strings.PRODUCT]: {
         singular: 'Product'
