@@ -1,6 +1,15 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [2.3.0](https://github.com/SalesVista/strings/compare/v2.2.0...v2.3.0) (2019-07-18)
+
+
+### Features
+
+* add `includeCount` option to pluralize method ([#5](https://github.com/SalesVista/strings/issues/5)) ([ac2581d](https://github.com/SalesVista/strings/commit/ac2581d))
+
+
 
 # [2.2.0](https://github.com/SalesVista/strings/compare/v2.1.0...v2.2.0) (2019-02-16)
 
@@ -8,6 +17,15 @@ All notable changes to this project will be documented in this file. See [standa
 ### Features
 
 * support locale as array, add plural opt to pluralize method ([#4](https://github.com/SalesVista/strings/issues/4)) ([c0b6bf5](https://github.com/SalesVista/strings/commit/c0b6bf5))
+
+
+
+# [2.1.0](https://github.com/SalesVista/strings/compare/v2.0.0...v2.1.0) (2019-02-15)
+
+
+### Features
+
+* parse Accept-Language format in normalizeLocale ([#3](https://github.com/SalesVista/strings/issues/3)) ([245a799](https://github.com/SalesVista/strings/commit/245a799))
 
 
 
