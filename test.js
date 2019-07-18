@@ -259,6 +259,17 @@ tap.test('pluralize', t => {
   t.strictEqual(Strings.pluralize(1000, 'PERSON', { plural: 'PEOPLE' }), '1,000 PEOPLE')
   t.strictEqual(Strings.pluralize(1000, 'PERSON', { other: 'PEOPLE' }), '1,000 PEOPLE')
 
+  t.strictEqual(Strings.pluralize(1, 'fly', { includeCount: false }), 'fly')
+  t.strictEqual(Strings.pluralize(0, 'fly', { includeCount: false }), 'flies')
+  t.strictEqual(Strings.pluralize(2, 'fly', { includeCount: false }), 'flies')
+  t.strictEqual(Strings.pluralize(1, 'guy', { suffix: 's', includeCount: false }), 'guy')
+  t.strictEqual(Strings.pluralize(0, 'guy', { suffix: 's', includeCount: false }), 'guys')
+  t.strictEqual(Strings.pluralize(2, 'guy', { suffix: 's', includeCount: false }), 'guys')
+  t.strictEqual(Strings.pluralize(1, 'needs', { plural: 'need', includeCount: false }), 'needs')
+  t.strictEqual(Strings.pluralize(1, 'needs', { other: 'need', includeCount: false }), 'needs')
+  t.strictEqual(Strings.pluralize(1000, 'needs', { plural: 'need', includeCount: false }), 'need')
+  t.strictEqual(Strings.pluralize(1000, 'needs', { other: 'need', includeCount: false }), 'need')
+
   t.end()
 })
 

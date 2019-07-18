@@ -71,26 +71,30 @@ class Strings {
   }
 
   // valid opts:
+  // - plural or other (string, no default) to specify the whole plural form of the word rather than just the suffix
   // - suffix (string, default based on str) to customize pluralization
   // - locale (string, no default) to respect user's language + region
+  // - includeCount (boolean, default true) to include the formatted number in the returned string
   static pluralize (count, noun, opts) {
     if (!noun) return ''
     noun = String(noun)
     if (typeof count !== 'number') count = Number(count)
     if (Number.isNaN(count)) count = 0
-    let suffix, locale, plural
+    let suffix, locale, plural, includeCount
     if (typeof opts === 'string') {
       suffix = opts
+      includeCount = true
     } else {
       opts = opts || {}
       suffix = opts.suffix
       locale = opts.locale
       plural = opts.plural || opts.other
+      includeCount = typeof opts.includeCount === 'boolean' ? opts.includeCount : true
     }
     if (count !== 1) {
       noun = plural || Strings.toPlural(noun, { suffix, locale })
     }
-    return Strings.formatInt(count, locale) + ' ' + noun
+    return (includeCount ? Strings.formatInt(count, locale) + ' ' : '') + noun
   }
 
   static abbreviate (str) {
