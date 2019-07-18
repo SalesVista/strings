@@ -218,6 +218,7 @@ Supported options include:
 
 - `plural` (string): string to use as plural noun when needed (mutually exclusive with `suffix`)
 - `suffix` (string): add this to the string instead of making a best-guess effort when pluralization is needed (mutually exclusive with `plural`)
+- `includeCount` (boolean, default `true`): include the formatted count in the returned string
 - `locale` (string or array): to format the integer and respect case-sensitivity in a language-specific way
 
 ### `Strings.toLower(str, locale)`
