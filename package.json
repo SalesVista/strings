@@ -28,10 +28,10 @@
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-preset-env": "^1.7.0",
-    "coveralls": "^3.0.2",
-    "standard": "^12.0.1",
-    "standard-version": "^5.0.0",
-    "tap": "^12.5.2"
+    "coveralls": "^3.0.5",
+    "standard": "^13.0.2",
+    "standard-version": "^6.0.1",
+    "tap": "^14.4.2"
   },
   "babel": {
     "presets": [
