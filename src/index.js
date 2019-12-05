@@ -102,26 +102,28 @@ class Strings {
     return (includeCount ? Strings.formatInt(count, locale) + ' ' : '') + noun
   }
 
-  static abbreviate (str) {
+  static abbreviate (str, singleWordSize) {
     if (!str) return ''
     const words = String(str).replace(WHITESPACE_EQUIV_REGEX_G, ' ').replace(IGNORED_CHARS_REGEX_G, '').split(/\s/)
     if (words.length === 1) {
       const w = words[0]
+      singleWordSize = parseInt(singleWordSize, 10)
+      if (isNaN(singleWordSize) || singleWordSize < 1) singleWordSize = 3
       // first check SPECIAL_ABBREVS
       for (const [regex, indices] of Strings.SPECIAL_ABBREVS) {
         if (regex.test(w)) {
-          return indices.reduce((abbr, i) => abbr + w[i], '')
+          return indices.reduce((abbr, i) => abbr + (abbr.length < singleWordSize ? w[i] : ''), '') // singleWordSize behaving as "max" here
         }
       }
       // otherwise use default logic:
       // whole word if less than 4 chars
-      if (w.length < 4) return w
+      if (w.length <= singleWordSize) return w
       // first char only if 4 chars e.g. 'unit' -> 'u'
-      if (w.length === 4) return w[0]
+      // if (w.length === 4) return w[0]
       // first 3 chars if ends in vowel e.g. 'volume' -> 'vol', 'revenue' -> 'rev'
-      if (VOWEL_REGEX.test(w.slice(-1))) return w.slice(0, 3)
+      if (VOWEL_REGEX.test(w.slice(-1))) return w.slice(0, singleWordSize)
       // otherwise take first char + next two consonants
-      return w.slice(0, 1) + w.slice(1).replace(VOWEL_REGEX_G, '').slice(0, 2)
+      return w.slice(0, 1) + w.slice(1).replace(VOWEL_REGEX_G, '').slice(0, singleWordSize - 1)
     }
     return words.reduce((abbr, word) => abbr + word.slice(0, 1), '')
   }
@@ -133,6 +135,8 @@ class Strings {
   // - abbrev (boolean, default false) to abbreviate the value before returning
   // - strict (boolean, default true) to return empty string if key not in strings nor in DEFAULTS
   // - locale (string, no default) to respect user's language + region
+  // - min (integer, no default) to specify the minimum number of chars returned (if possible) when abbreviation is used
+  // - max (integer, no default) to specify the maximum number of chars allowed before abbreviation is used
   static get (strings, key, opts) {
     // allow first two args to be interchangeable
     if (typeof strings === 'string') {
@@ -181,9 +185,11 @@ class Strings {
       val = key
     }
     // should now have val to use, apply transformational opts
+    let max = NaN
+    if (opts.max != null) max = parseInt(opts.max, 10)
     if (opts.lc) val = Strings.toLower(val, locale)
     else if (opts.uc) val = Strings.toUpper(val, locale)
-    return opts.abbrev ? Strings.abbreviate(val) : val
+    return opts.abbrev || (!isNaN(max) && String(val).length > max) ? Strings.abbreviate(val, opts.min) : val
   }
 
   // valid opts:

@@ -757,7 +757,7 @@ tap.test('defaults', t => {
   t.strictEqual(d.getSingular(Strings.VOLUME, { abbrev: true }), 'Vol')
   t.strictEqual(d.getSingular(Strings.UNIT), 'Unit')
   t.strictEqual(d.getPlural(Strings.UNIT), 'Units')
-  t.strictEqual(d.getSingular(Strings.UNIT, { abbrev: true }), 'U')
+  t.strictEqual(d.getSingular(Strings.UNIT, { abbrev: true }), 'Unt')
 
   // others
   t.strictEqual(d.getSingular(Strings.PRODUCT), 'Product')
