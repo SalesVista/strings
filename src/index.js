@@ -1,3 +1,8 @@
+const VOWEL_REGEX = /[aeiouy]/i
+const VOWEL_REGEX_G = /[aeiouy]/ig
+const WHITESPACE_EQUIV_REGEX_G = /[-_.,+]/g
+const IGNORED_CHARS_REGEX_G = /[^\w\s]/g
+
 class Strings {
   static normalizeLocale (locale) {
     if (!locale) return undefined
@@ -99,7 +104,26 @@ class Strings {
 
   static abbreviate (str) {
     if (!str) return ''
-    return String(str).split(/\s/).reduce((abbr, word) => abbr + word.slice(0, 1), '')
+    const words = String(str).replace(WHITESPACE_EQUIV_REGEX_G, ' ').replace(IGNORED_CHARS_REGEX_G, '').split(/\s/)
+    if (words.length === 1) {
+      const w = words[0]
+      // first check SPECIAL_ABBREVS
+      for (const [regex, indices] of Strings.SPECIAL_ABBREVS) {
+        if (regex.test(w)) {
+          return indices.reduce((abbr, i) => abbr + w[i], '')
+        }
+      }
+      // otherwise use default logic:
+      // whole word if less than 4 chars
+      if (w.length < 4) return w
+      // first char only if 4 chars e.g. 'unit' -> 'u'
+      if (w.length === 4) return w[0]
+      // first 3 chars if ends in vowel e.g. 'volume' -> 'vol', 'revenue' -> 'rev'
+      if (VOWEL_REGEX.test(w.slice(-1))) return w.slice(0, 3)
+      // otherwise take first char + next two consonants
+      return w.slice(0, 1) + w.slice(1).replace(VOWEL_REGEX_G, '').slice(0, 2)
+    }
+    return words.reduce((abbr, word) => abbr + word.slice(0, 1), '')
   }
 
   // valid opts:
@@ -279,5 +303,15 @@ Strings.DEFAULTS = {
   [Strings.ADJUSTMENT]: 'Adjustment',
   [Strings.BATCH]: 'Batch'
 }
+
+Strings.SPECIAL_ABBREVS = new Map([
+  [/amount/i, [0, 1, 5]], // amt
+  [/profit/i, [0, 3, 5]], // pft
+  [/margin/i, [0, 3, 5]], // mgn
+  [/report/i, [0, 2, 5]], // rpt
+  [/member/i, [0, 3, 5]], // mbr
+  [/payment/i, [0, 3, 6]], // pmt
+  [/commission/i, [0, 1, 2]] // com
+])
 
 module.exports = Strings
