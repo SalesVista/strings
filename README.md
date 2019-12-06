@@ -76,7 +76,8 @@ Each method can also accept an additional options object supporting the followin
 - `plural` (boolean) or `count` (number): to more easily support conditional plurality using `get()`
 - `suffix` (string): to customize what gets added to the value when auto-pluralization is used
 - `lc` (boolean) or `uc` (boolean): to transform the display value to lowercase or uppercase, respectively
-- `abbrev` (boolean): to abbreviate the display value to the first letter of each word in the string
+- `abbrev` (boolean): to abbreviate the display value using a best-effort algorithm
+- `max` (number) and/or `min` (number): to conditionally abbreviate the display value
 - `strict` (boolean, default `true`): to use an empty string (strict=true) or key (strict=false) when key not found in strings or defaults
 - `locale` (string or array): to make sure case-sensitivity respects rules and characters for the user's language and region
 
@@ -100,6 +101,8 @@ For convenience, the first two arguments are interchangeable.
 - `lc` (boolean): transform the display string to lowercase (mutually exclusive with `uc`)
 - `uc` (boolean): transform the display string to uppercase (mutually exclusive with `lc`)
 - `abbrev` (boolean): transform the display string to its abbreviated form
+- `max` (number): conditionally abbreviate the display string if it has more than this number of characters
+- `min` (number): if abbreviation is required, this specifies the desired number of characters for the abbreviation (only applies to single-word display strings) - internally passed as the 2nd argument to `Strings.abbreviate(str, singleWordSize)`, see docs there
 - `strict` (boolean, default `true`): whether keys should be interpreted strictly (required in strings or defaults) or loosely (not required in strings or defaults) - in strict mode, an empty string will be returned when key is not found; in loose mode, the key will be used as the value when key is not found
 - `locale` (string or array): the user's locale e.g. `'en-US'` or `'en_US'`
 
@@ -184,11 +187,13 @@ Shortcut to get the plural value defined for `key`. If a singular value is defin
 
 ## Secondary API
 
-### `Strings.abbreviate(str)`
+### `Strings.abbreviate(str, singleWordSize = 3)`
 
-Abbreviate the given string by grabbing the first letter/character of each word, where words are separated by whitespace. If no string is given, an empty string will be returned.
+Abbreviate the given string by grabbing the first letter/character of each word, where words are separated by whitespace or one of the following characters: `-`, `_`, `+`, `.`, `,`. If no string is given, an empty string will be returned.
 
-E.g. turns `'Annual Contract Value'` into `'ACV'`
+If the string contains only a single word (no whitespace separation), then a best-effort algorithm is used to determine the abbreviation. You can control the size of the desired abbreviation (number of characters) using the `singleWordSize` argument, which defaults to 3.
+
+E.g. turns `'Annual Contract Value'` into `'ACV'`, or turns `'Volume'` into `'Vol'`
 
 ### `Strings.formatInt(int, locale)`
 
