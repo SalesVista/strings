@@ -111,7 +111,7 @@ class Strings {
       if (isNaN(singleWordSize) || singleWordSize < 1) singleWordSize = 3
       // first check SPECIAL_ABBREVS
       for (const [regex, indices] of Strings.SPECIAL_ABBREVS) {
-        if (regex.test(w)) {
+        if (regex.test(w) && singleWordSize <= indices.length) {
           return indices.reduce((abbr, i) => abbr + (abbr.length < singleWordSize ? w[i] : ''), '') // singleWordSize behaving as "max" here
         }
       }

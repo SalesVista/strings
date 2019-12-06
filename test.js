@@ -278,6 +278,12 @@ tap.test('abbreviate', t => {
   t.strictEqual(Strings.abbreviate(null), '')
   t.strictEqual(Strings.abbreviate(''), '')
   t.strictEqual(Strings.abbreviate('one'), 'one')
+  t.strictEqual(Strings.abbreviate('one', 2), 'on')
+  t.strictEqual(Strings.abbreviate('one', '2'), 'on')
+  t.strictEqual(Strings.abbreviate('one', 4), 'one')
+  t.strictEqual(Strings.abbreviate('one', '4'), 'one')
+  t.strictEqual(Strings.abbreviate('one', 'x'), 'one')
+  t.strictEqual(Strings.abbreviate('one', null), 'one')
   t.strictEqual(Strings.abbreviate('one two'), 'ot')
   t.strictEqual(Strings.abbreviate('one two three'), 'ott')
   t.strictEqual(Strings.abbreviate('One Two Three'), 'OTT')
@@ -289,6 +295,8 @@ tap.test('abbreviate', t => {
   t.strictEqual(Strings.abbreviate('gross.margin'), 'gm')
   t.strictEqual(Strings.abbreviate('gross,margin'), 'gm')
   t.strictEqual(Strings.abbreviate('AMOUNT'), 'AMT')
+  t.strictEqual(Strings.abbreviate('AMOUNT', 2), 'AM')
+  t.strictEqual(Strings.abbreviate('AMOUNT', 5), 'AMNT')
   t.strictEqual(Strings.abbreviate('MARGIN'), 'MGN')
   t.strictEqual(Strings.abbreviate('REPORT'), 'RPT')
   t.strictEqual(Strings.abbreviate('MEMBER'), 'MBR')
@@ -296,6 +304,14 @@ tap.test('abbreviate', t => {
   t.strictEqual(Strings.abbreviate('COMMISSION'), 'COM')
   t.strictEqual(Strings.abbreviate('BONUS'), 'BNS')
   t.strictEqual(Strings.abbreviate('VOLUME'), 'VOL')
+  t.strictEqual(Strings.abbreviate('Volume', 6), 'Volume')
+  t.strictEqual(Strings.abbreviate('annual'), 'ann')
+  t.strictEqual(Strings.abbreviate('contract'), 'cnt')
+  t.strictEqual(Strings.abbreviate('value'), 'val')
+  t.strictEqual(Strings.abbreviate('extended'), 'ext')
+  t.strictEqual(Strings.abbreviate('annual', 4), 'annl')
+  t.strictEqual(Strings.abbreviate('contract', 4), 'cntr')
+  t.strictEqual(Strings.abbreviate('revenue'), 'rev')
   t.end()
 })
 
@@ -448,8 +464,22 @@ tap.test('static get', t => {
   t.strictEqual(Strings.get(strings, invalidKey, { uc: true, abbrev: true }), '')
   t.strictEqual(Strings.get(invalidKey, strings, { uc: true, abbrev: true }), '')
 
+  // suffix to customize auto-pluralization
   t.strictEqual(Strings.get(null, 'guy', { count: 2, suffix: 's', strict: false }), 'guys')
   t.strictEqual(Strings.get('guy', null, { count: 2, suffix: 's', strict: false }), 'guys')
+
+  // min/max
+  t.strictEqual(Strings.get(strings, Strings.GROSS_MARGIN, { min: 3, max: 6 }), 'Profit') // max here means no abbreviation necessary
+  t.strictEqual(Strings.get(Strings.GROSS_MARGIN, strings, { min: 3, max: 6 }), 'Profit')
+  t.strictEqual(Strings.get(strings, Strings.GROSS_MARGIN, { min: 3, max: 5 }), 'Pft')
+  t.strictEqual(Strings.get(strings, Strings.GROSS_MARGIN, { min: 4, max: 5 }), 'Prft')
+  t.strictEqual(Strings.get(strings, Strings.ANNUAL_CONTRACT_VALUE, { min: 4, max: 5 }), 'ACV') // min does not apply to multi-word abbreviations
+  t.strictEqual(Strings.get(strings, Strings.PLAN, { min: 3, max: 6 }), 'Prg')
+  t.strictEqual(Strings.get(strings, Strings.QUOTA, { min: 3, max: 6, count: 1 }), 'Plan')
+  t.strictEqual(Strings.get(strings, Strings.QUOTA, { min: 3, max: 6, count: 2 }), 'Plans')
+  t.strictEqual(Strings.get(strings, Strings.QUOTA, { min: 3, max: 3, count: 1 }), 'Pln')
+  t.strictEqual(Strings.get(strings, Strings.QUOTA, { min: 3, max: 3, count: 2 }), 'Pln')
+  t.strictEqual(Strings.get(strings, Strings.QUOTA, { min: 4, max: 4, count: 2 }), 'Plns')
 
   const p = {
     person: {
@@ -658,6 +688,12 @@ tap.test('instance get', t => {
   t.strictEqual(s.get(Strings.GROSS_MARGIN, { abbrev: true }), 'Pft')
   t.strictEqual(d.get(Strings.ANNUAL_CONTRACT_VALUE, { abbrev: true }), 'ACV')
   t.strictEqual(s.get(Strings.ANNUAL_CONTRACT_VALUE, { abbrev: true }), 'ACV')
+
+  // min/max
+  t.strictEqual(d.get(Strings.GROSS_MARGIN, { min: 3, max: 6 }), 'GM') // min not used for mult-word
+  t.strictEqual(s.get(Strings.GROSS_MARGIN, { min: 3, max: 6 }), 'Profit') // max allows for full value
+  t.strictEqual(s.get(Strings.GROSS_MARGIN, { min: 3, max: 5 }), 'Pft')
+  t.strictEqual(s.get(Strings.GROSS_MARGIN, { min: 4, max: 5 }), 'Prft')
 
   t.end()
 })
