@@ -297,6 +297,8 @@ tap.test('abbreviate', t => {
   t.strictEqual(Strings.abbreviate('AMOUNT'), 'AMT')
   t.strictEqual(Strings.abbreviate('AMOUNT', 2), 'AM')
   t.strictEqual(Strings.abbreviate('AMOUNT', 5), 'AMNT')
+  t.strictEqual(Strings.abbreviate('AMOUNT', 0), 'AMT')
+  t.strictEqual(Strings.abbreviate('AMOUNT', -1), 'AMT')
   t.strictEqual(Strings.abbreviate('MARGIN'), 'MGN')
   t.strictEqual(Strings.abbreviate('REPORT'), 'RPT')
   t.strictEqual(Strings.abbreviate('MEMBER'), 'MBR')
