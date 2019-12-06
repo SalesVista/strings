@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.4.0](https://github.com/SalesVista/strings/compare/v2.3.0...v2.4.0) (2019-12-06)
+
+
+### Features
+
+* support min/max opts, better single-word abbreviations ([#7](https://github.com/SalesVista/strings/issues/7)) ([60d6b0a](https://github.com/SalesVista/strings/commit/60d6b0a98575ed5c6b950cee464e42a73a5d5d10))
+
 ## [2.3.0](https://github.com/SalesVista/strings/compare/v2.2.0...v2.3.0) (2019-07-18)
 
 
