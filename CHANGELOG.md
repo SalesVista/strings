@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.5.0](https://github.com/SalesVista/strings/compare/v2.4.0...v2.5.0) (2020-01-14)
+
+
+### Features
+
+* add includeCount option to Strings.get ([#9](https://github.com/SalesVista/strings/issues/9)) ([a0ad3b2](https://github.com/SalesVista/strings/commit/a0ad3b216f51f90261cc1bc0a7fd8f7aca96a92c))
+
 ## [2.4.0](https://github.com/SalesVista/strings/compare/v2.3.0...v2.4.0) (2019-12-06)
 
 
