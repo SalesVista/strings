@@ -137,6 +137,7 @@ class Strings {
   // - locale (string, no default) to respect user's language + region
   // - min (integer, no default) to specify the minimum number of chars returned (if possible) when abbreviation is used
   // - max (integer, no default) to specify the maximum number of chars allowed before abbreviation is used
+  // - includeCount (boolean, default false) to include count as formatted integer in returned string (requires count option)
   static get (strings, key, opts) {
     // allow first two args to be interchangeable
     if (typeof strings === 'string') {
@@ -168,6 +169,19 @@ class Strings {
 
     // check for locale
     const locale = opts.locale || strings.locale
+
+    // if includeCount and count given, use pluralize to include formatted integer
+    if (opts.includeCount === true && typeof opts.count === 'number') {
+      return Strings.pluralize(
+        opts.count,
+        Strings.get(strings, key, Object.assign({}, opts, { includeCount: false, plural: false })),
+        {
+          locale,
+          plural: Strings.get(strings, key, Object.assign({}, opts, { includeCount: false, plural: true }))
+        }
+      )
+    }
+
     // determine plurality
     let usePlural = false
     if (typeof opts.plural === 'boolean') usePlural = opts.plural
