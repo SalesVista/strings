@@ -97,6 +97,7 @@ For convenience, the first two arguments are interchangeable.
 
 - `plural` (boolean): whether to use the plural form or not (mutually exclusive with `count`)
 - `count` (number): number of items that should be translated for plurality (mutually exclusive with `plural`)
+- `includeCount` (boolean, default `false`): whether to include `count` as a formatted integer in the returned string (ignored if `count` is not given as a number)
 - `suffix` (string): a custom suffix to add to the display string value when plurality is needed and no explicit plural value is defined
 - `lc` (boolean): transform the display string to lowercase (mutually exclusive with `uc`)
 - `uc` (boolean): transform the display string to uppercase (mutually exclusive with `lc`)

@@ -483,6 +483,31 @@ tap.test('static get', t => {
   t.strictEqual(Strings.get(strings, Strings.QUOTA, { min: 3, max: 3, count: 2 }), 'Pln')
   t.strictEqual(Strings.get(strings, Strings.QUOTA, { min: 4, max: 4, count: 2 }), 'Plns')
 
+  // includeCount option
+  t.strictEqual(Strings.get(strings, Strings.SALE, { count: 1, includeCount: true }), '1 Sale')
+  t.strictEqual(Strings.get(strings, Strings.SALE, { count: 0, includeCount: true }), '0 Sales')
+  t.strictEqual(Strings.get(strings, Strings.SALE, { count: 1234, includeCount: true }), '1,234 Sales')
+  t.strictEqual(Strings.get(null, 'guy', { count: 1, includeCount: true, suffix: 's', strict: false }), '1 guy')
+  t.strictEqual(Strings.get(null, 'guy', { count: 0, includeCount: true, suffix: 's', strict: false }), '0 guys')
+  t.strictEqual(Strings.get(null, 'guy', { count: 12345, includeCount: true, suffix: 's', strict: false }), '12,345 guys')
+  t.strictEqual(Strings.get(strings, Strings.SALE, { count: 1, includeCount: true, uc: true, abbrev: true }), '1 SAL')
+  t.strictEqual(Strings.get(strings, Strings.SALE, { count: 0, includeCount: true, uc: true, abbrev: true }), '0 SLS')
+  t.strictEqual(Strings.get(strings, Strings.SALE, { count: 123456, includeCount: true, uc: true, abbrev: true }), '123,456 SLS')
+  t.strictEqual(Strings.get(strings, Strings.QUOTA, { count: 1, includeCount: true, lc: true }), '1 plan')
+  t.strictEqual(Strings.get(strings, Strings.QUOTA, { count: 0, includeCount: true, lc: true }), '0 plans')
+  t.strictEqual(Strings.get(strings, Strings.QUOTA, { count: 1234567, includeCount: true, lc: true }), '1,234,567 plans')
+  t.strictEqual(Strings.get(strings, Strings.PLAN, { count: 1, includeCount: true, min: 6, max: 6 }), '1 Prgrm')
+  t.strictEqual(Strings.get(strings, Strings.PLAN, { count: 0, includeCount: true, min: 6, max: 6 }), '0 Prgrms')
+  t.strictEqual(Strings.get(strings, Strings.PLAN, { count: 123, includeCount: true, min: 6, max: 6 }), '123 Prgrms')
+  // includeCount ignored if count is not given
+  t.strictEqual(Strings.get(strings, Strings.PRODUCT, { plural: true, includeCount: true, lc: true }), 'products')
+  // includeCount ignored if count is not a number
+  t.strictEqual(Strings.get(strings, Strings.SALE, { count: '1234', includeCount: true }), 'Sale')
+  // includeCount can also be false
+  t.strictEqual(Strings.get(strings, Strings.SALE, { count: 1, includeCount: false }), 'Sale')
+  t.strictEqual(Strings.get(strings, Strings.SALE, { count: 0, includeCount: false }), 'Sales')
+  t.strictEqual(Strings.get(strings, Strings.SALE, { count: 1234, includeCount: false }), 'Sales')
+
   const p = {
     person: {
       plural: 'people'
