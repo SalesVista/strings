@@ -57,6 +57,25 @@ tap.test('toLower', t => {
   t.end()
 })
 
+tap.test('toFirstLetterUpper', t => {
+  t.strictEqual(Strings.toFirstLetterUpper(), '')
+  t.strictEqual(Strings.toFirstLetterUpper(null), '')
+  t.strictEqual(Strings.toFirstLetterUpper(''), '')
+  t.strictEqual(Strings.toFirstLetterUpper('ABC'), 'ABC')
+  t.strictEqual(Strings.toFirstLetterUpper('1bc'), '1bc')
+  t.strictEqual(Strings.toFirstLetterUpper('abc'), 'Abc')
+  t.strictEqual(Strings.toFirstLetterUpper('abc', 'en-US'), 'Abc')
+  t.strictEqual(Strings.toFirstLetterUpper('abc', 'en_US'), 'Abc')
+  t.strictEqual(Strings.toFirstLetterUpper('abc', 'invalid locale'), 'Abc')
+  t.strictEqual(Strings.toFirstLetterUpper('abc', ['en-US', 'invalid locale']), 'Abc')
+  t.strictEqual(Strings.toFirstLetterUpper('abc de'), 'Abc de')
+  t.strictEqual(Strings.toFirstLetterUpper('a'), 'A')
+  t.strictEqual(Strings.toFirstLetterUpper('ab'), 'Ab')
+  t.strictEqual(Strings.toFirstLetterUpper('лександра'), 'Лександра')
+  t.strictEqual(Strings.toFirstLetterUpper('łukasz'), 'Łukasz')
+  t.end()
+})
+
 tap.test('isUpper', t => {
   t.strictEqual(Strings.isUpper(), false)
   t.strictEqual(Strings.isUpper(null), false)
@@ -326,6 +345,10 @@ const strings = {
   [Strings.QUOTA]: {
     one: 'Plan',
     other: 'Plans'
+  },
+  [Strings.REPORT]: {
+    one: 'report',
+    other: 'reports'
   }
 }
 const invalidKey = 'invalid_key'
@@ -423,6 +446,20 @@ tap.test('static get', t => {
   t.strictEqual(Strings.get(invalidKey, strings, { plural: false, lc: true }), '')
   t.strictEqual(Strings.get(strings, invalidKey, { plural: true, lc: true }), '')
   t.strictEqual(Strings.get(invalidKey, strings, { plural: true, lc: true }), '')
+
+  // 3rd arg object as opts with plural boolean and flu boolean
+  t.strictEqual(Strings.get(strings, Strings.REPORT, { plural: false, flu: true }), 'Report')
+  t.strictEqual(Strings.get(Strings.REPORT, strings, { plural: false, flu: true }), 'Report')
+  t.strictEqual(Strings.get(strings, Strings.REPORT, { plural: true, flu: true }), 'Reports')
+  t.strictEqual(Strings.get(Strings.REPORT, strings, { plural: true, flu: true }), 'Reports')
+  t.strictEqual(Strings.get(strings, Strings.REPORT, { plural: false, flu: false }), 'report')
+  t.strictEqual(Strings.get(Strings.REPORT, strings, { plural: false, flu: false }), 'report')
+  t.strictEqual(Strings.get(strings, Strings.REPORT, { plural: true, flu: false }), 'reports')
+  t.strictEqual(Strings.get(Strings.REPORT, strings, { plural: true, flu: false }), 'reports')
+  t.strictEqual(Strings.get(strings, invalidKey, { plural: false, flu: true }), '')
+  t.strictEqual(Strings.get(invalidKey, strings, { plural: false, flu: true }), '')
+  t.strictEqual(Strings.get(strings, invalidKey, { plural: true, flu: true }), '')
+  t.strictEqual(Strings.get(invalidKey, strings, { plural: true, flu: true }), '')
 
   // 3rd arg opts object with count number and locale string
   t.strictEqual(Strings.get(strings, Strings.GROSS_MARGIN, { count: 1, locale: 'en-US' }), 'Profit')
@@ -551,6 +588,8 @@ tap.test('static getSingular', t => {
   t.strictEqual(Strings.getSingular(Strings.PLAN, strings, { lc: true }), 'program')
   t.strictEqual(Strings.getSingular(strings, Strings.ANNUAL_CONTRACT_VALUE, { lc: true, abbrev: true }), 'acv')
   t.strictEqual(Strings.getSingular(Strings.ANNUAL_CONTRACT_VALUE, strings, { lc: true, abbrev: true }), 'acv')
+  t.strictEqual(Strings.getSingular(strings, Strings.REPORT, { flu: true }), 'Report')
+  t.strictEqual(Strings.getSingular(Strings.REPORT, strings, { flu: true }), 'Report')
 
   t.end()
 })
@@ -579,6 +618,8 @@ tap.test('static getPlural', t => {
   t.strictEqual(Strings.getPlural(Strings.PLAN, strings, { lc: true }), 'programs')
   t.strictEqual(Strings.getPlural(strings, Strings.ANNUAL_CONTRACT_VALUE, { lc: true, abbrev: true }), 'acv')
   t.strictEqual(Strings.getPlural(Strings.ANNUAL_CONTRACT_VALUE, strings, { lc: true, abbrev: true }), 'acv')
+  t.strictEqual(Strings.getPlural(strings, Strings.REPORT, { flu: true }), 'Reports')
+  t.strictEqual(Strings.getPlural(Strings.REPORT, strings, { flu: true }), 'Reports')
 
   t.end()
 })
@@ -716,6 +757,20 @@ tap.test('instance get', t => {
   t.strictEqual(d.get(Strings.ANNUAL_CONTRACT_VALUE, { abbrev: true }), 'ACV')
   t.strictEqual(s.get(Strings.ANNUAL_CONTRACT_VALUE, { abbrev: true }), 'ACV')
 
+  // 2rd arg object as opts with plural boolean and flu boolean
+  t.strictEqual(d.get(Strings.REPORT, { plural: false, flu: true }), 'Report')
+  t.strictEqual(s.get(Strings.REPORT, { plural: false, flu: true }), 'Report')
+  t.strictEqual(d.get(Strings.REPORT, { plural: true, flu: true }), 'Reports')
+  t.strictEqual(s.get(Strings.REPORT, { plural: true, flu: true }), 'Reports')
+  t.strictEqual(d.get(Strings.REPORT, { plural: false, flu: false }), 'Report')
+  t.strictEqual(s.get(Strings.REPORT, { plural: false, flu: false }), 'report')
+  t.strictEqual(d.get(Strings.REPORT, { plural: true, flu: false }), 'Reports')
+  t.strictEqual(s.get(Strings.REPORT, { plural: true, flu: false }), 'reports')
+  t.strictEqual(d.get(invalidKey, strings, { plural: false, flu: true }), '')
+  t.strictEqual(s.get(invalidKey, strings, { plural: false, flu: true }), '')
+  t.strictEqual(d.get(invalidKey, strings, { plural: true, flu: true }), '')
+  t.strictEqual(s.get(invalidKey, strings, { plural: true, flu: true }), '')
+
   // min/max
   t.strictEqual(d.get(Strings.GROSS_MARGIN, { min: 3, max: 6 }), 'GM') // min not used for mult-word
   t.strictEqual(s.get(Strings.GROSS_MARGIN, { min: 3, max: 6 }), 'Profit') // max allows for full value
@@ -752,6 +807,9 @@ tap.test('instance getSingular', t => {
   t.strictEqual(d.getSingular(Strings.GROSS_MARGIN, { uc: true, abbrev: true }), 'GM')
   t.strictEqual(s.getSingular(Strings.GROSS_MARGIN, { uc: true, abbrev: true }), 'PFT')
 
+  t.strictEqual(d.getSingular(Strings.REPORT, { flu: true }), 'Report')
+  t.strictEqual(s.getSingular(Strings.REPORT, { flu: true }), 'Report')
+
   t.end()
 })
 
@@ -779,6 +837,9 @@ tap.test('instance getPlural', t => {
 
   t.strictEqual(d.getPlural(Strings.PLAN, { lc: true }), 'plans')
   t.strictEqual(s.getPlural(Strings.PLAN, { lc: true }), 'programs')
+
+  t.strictEqual(d.getPlural(Strings.REPORT, { flu: true }), 'Reports')
+  t.strictEqual(s.getPlural(Strings.REPORT, { flu: true }), 'Reports')
 
   t.end()
 })

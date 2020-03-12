@@ -41,6 +41,17 @@ class Strings {
     return s.toLowerCase()
   }
 
+  static toFirstLetterUpper (s, locale) {
+    if (!s) return ''
+    s = String(s)
+
+    try {
+      return s.charAt(0).toLocaleUpperCase(Strings.normalizeLocale(locale)) + s.slice(1)
+    } catch (_) {}
+
+    return s.charAt(0).toUpperCase() + s.slice(1)
+  }
+
   static isUpper (c, locale) {
     if (!c) return false
     return String(c) !== Strings.toLower(c, locale)
@@ -203,6 +214,7 @@ class Strings {
     if (opts.max != null) max = parseInt(opts.max, 10)
     if (opts.lc) val = Strings.toLower(val, locale)
     else if (opts.uc) val = Strings.toUpper(val, locale)
+    else if (opts.flu) val = Strings.toFirstLetterUpper(val, locale)
     return opts.abbrev || (!isNaN(max) && String(val).length > max) ? Strings.abbreviate(val, opts.min) : val
   }
 
