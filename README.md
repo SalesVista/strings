@@ -75,6 +75,7 @@ Each method can also accept an additional options object supporting the followin
 
 - `plural` (boolean) or `count` (number): to more easily support conditional plurality using `get()`
 - `suffix` (string): to customize what gets added to the value when auto-pluralization is used
+- `flu` (boolean): to transform the display value's first character to uppercase
 - `lc` (boolean) or `uc` (boolean): to transform the display value to lowercase or uppercase, respectively
 - `abbrev` (boolean): to abbreviate the display value using a best-effort algorithm
 - `max` (number) and/or `min` (number): to conditionally abbreviate the display value
@@ -99,8 +100,9 @@ For convenience, the first two arguments are interchangeable.
 - `count` (number): number of items that should be translated for plurality (mutually exclusive with `plural`)
 - `includeCount` (boolean, default `false`): whether to include `count` as a formatted integer in the returned string (ignored if `count` is not given as a number)
 - `suffix` (string): a custom suffix to add to the display string value when plurality is needed and no explicit plural value is defined
-- `lc` (boolean): transform the display string to lowercase (mutually exclusive with `uc`)
-- `uc` (boolean): transform the display string to uppercase (mutually exclusive with `lc`)
+- `flu` (boolean): transform the display string's first character to uppercase (mutually exclusive with `lc` and `uc)
+- `lc` (boolean): transform the display string to lowercase (mutually exclusive with `uc` and `flu`)
+- `uc` (boolean): transform the display string to uppercase (mutually exclusive with `lc` and `flu`)
 - `abbrev` (boolean): transform the display string to its abbreviated form
 - `max` (number): conditionally abbreviate the display string if it has more than this number of characters
 - `min` (number): if abbreviation is required, this specifies the desired number of characters for the abbreviation (only applies to single-word display strings) - internally passed as the 2nd argument to `Strings.abbreviate(str, singleWordSize)`, see docs there
