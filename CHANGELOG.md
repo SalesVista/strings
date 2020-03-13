@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.6.0](https://github.com/SalesVista/strings/compare/v2.5.0...v2.6.0) (2020-03-13)
+
+
+### Features
+
+* add firstLetterUpper ([d715c4c](https://github.com/SalesVista/strings/commit/d715c4cb38441bbc06b89090ec21c19eee1049bb))
+
 ## [2.5.0](https://github.com/SalesVista/strings/compare/v2.4.0...v2.5.0) (2020-01-14)
 
 
