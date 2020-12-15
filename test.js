@@ -292,6 +292,64 @@ tap.test('pluralize', t => {
   t.end()
 })
 
+tap.test('isVowel', t => {
+  t.strictEqual(Strings.isVowel(), false)
+  t.strictEqual(Strings.isVowel(null), false)
+  t.strictEqual(Strings.isVowel(''), false)
+  t.strictEqual(Strings.isVowel('s'), false)
+  t.strictEqual(Strings.isVowel('S'), false)
+  t.strictEqual(Strings.isVowel('a'), true)
+  t.strictEqual(Strings.isVowel('A'), true)
+  t.strictEqual(Strings.isVowel('e'), true)
+  t.strictEqual(Strings.isVowel('E'), true)
+  t.strictEqual(Strings.isVowel('i'), true)
+  t.strictEqual(Strings.isVowel('I'), true)
+  t.strictEqual(Strings.isVowel('o'), true)
+  t.strictEqual(Strings.isVowel('O'), true)
+  t.strictEqual(Strings.isVowel('u'), true)
+  t.strictEqual(Strings.isVowel('U'), true)
+  t.strictEqual(Strings.isVowel('y'), true)
+  t.strictEqual(Strings.isVowel('Y'), true)
+  t.strictEqual(Strings.isVowel('y', false), false)
+  t.strictEqual(Strings.isVowel('Y', false), false)
+  t.strictEqual(Strings.isVowel('abc'), true) // acts like "contains vowel"
+  t.strictEqual(Strings.isVowel('cab'), true) // acts like "contains vowel"
+  t.strictEqual(Strings.isVowel(0), false)
+  t.strictEqual(Strings.isVowel(1), false)
+  t.strictEqual(Strings.isVowel(2), false)
+  t.end()
+})
+
+tap.test('startsWithVowel', t => {
+  t.strictEqual(Strings.startsWithVowel(), false)
+  t.strictEqual(Strings.startsWithVowel(null), false)
+  t.strictEqual(Strings.startsWithVowel(''), false)
+  t.strictEqual(Strings.startsWithVowel('sale'), false)
+  t.strictEqual(Strings.startsWithVowel('Sale'), false)
+  t.strictEqual(Strings.startsWithVowel('event'), true)
+  t.strictEqual(Strings.startsWithVowel('Event'), true)
+  t.strictEqual(Strings.startsWithVowel('yard'), false)
+  t.strictEqual(Strings.startsWithVowel('Yard'), false)
+  t.end()
+})
+
+tap.test('withArticle', t => {
+  t.strictEqual(Strings.withArticle(), '')
+  t.strictEqual(Strings.withArticle(null), '')
+  t.strictEqual(Strings.withArticle(''), '')
+  t.strictEqual(Strings.withArticle('sale'), 'a sale')
+  t.strictEqual(Strings.withArticle('Sale'), 'A Sale')
+  t.strictEqual(Strings.withArticle('event'), 'an event')
+  t.strictEqual(Strings.withArticle('Event'), 'An Event')
+  t.strictEqual(Strings.withArticle('sale', { consonant: 'the', vowel: 'the' }), 'the sale')
+  t.strictEqual(Strings.withArticle('event', { consonant: 'the', vowel: 'the' }), 'the event')
+  t.strictEqual(Strings.withArticle('Sale', { consonant: 'the', vowel: 'the' }), 'The Sale')
+  t.strictEqual(Strings.withArticle('Event', { consonant: 'the', vowel: 'the' }), 'The Event')
+  t.strictEqual(Strings.withArticle('yard'), 'a yard')
+  t.strictEqual(Strings.withArticle('Yard'), 'A Yard')
+  t.end()
+})
+
 tap.test('abbreviate', t => {
   t.strictEqual(Strings.abbreviate(), '')
   t.strictEqual(Strings.abbreviate(null), '')
@@ -544,6 +602,16 @@ tap.test('static get', t => {
   t.strictEqual(Strings.get(strings, Strings.SALE, { count: 1, includeCount: false }), 'Sale')
   t.strictEqual(Strings.get(strings, Strings.SALE, { count: 0, includeCount: false }), 'Sales')
   t.strictEqual(Strings.get(strings, Strings.SALE, { count: 1234, includeCount: false }), 'Sales')
+
+  // withArticle
+  t.strictEqual(Strings.get(strings, Strings.ADJUSTMENT, { withArticle: true }), 'An Adjustment')
+  t.strictEqual(Strings.get(strings, Strings.SALE, { withArticle: true }), 'A Sale')
+  t.strictEqual(Strings.get(strings, Strings.ADJUSTMENT, { withArticle: true, lc: true }), 'an adjustment')
+  t.strictEqual(Strings.get(strings, Strings.SALE, { withArticle: true, lc: true }), 'a sale')
+  t.strictEqual(Strings.get(strings, Strings.ADJUSTMENT, { withArticle: true, consonant: 'the', vowel: 'the' }), 'The Adjustment')
+  t.strictEqual(Strings.get(strings, Strings.SALE, { withArticle: true, consonant: 'the', vowel: 'the' }), 'The Sale')
+  t.strictEqual(Strings.get(strings, Strings.ADJUSTMENT, { withArticle: true, lc: true, consonant: 'the', vowel: 'the' }), 'the adjustment')
+  t.strictEqual(Strings.get(strings, Strings.SALE, { withArticle: true, lc: true, consonant: 'the', vowel: 'the' }), 'the sale')
 
   const p = {
     person: {

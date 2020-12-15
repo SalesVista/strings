@@ -1,4 +1,5 @@
 const VOWEL_REGEX = /[aeiouy]/i
+const VOWEL_REGEX_NOY = /[aeiou]/i
 const VOWEL_REGEX_G = /[aeiouy]/ig
 const WHITESPACE_EQUIV_REGEX_G = /[-_.,+]/g
 const IGNORED_CHARS_REGEX_G = /[^\w\s]/g
@@ -113,6 +114,32 @@ class Strings {
     return (includeCount ? Strings.formatInt(count, locale) + ' ' : '') + noun
   }
 
+  static isVowel (char, includeY = true) {
+    return !!char && (includeY ? VOWEL_REGEX : VOWEL_REGEX_NOY).test(char)
+  }
+
+  static startsWithVowel (str) {
+    return !!str && Strings.isVowel(String(str).charAt(0), false)
+  }
+
+  static withArticle (str, opts) {
+    if (!str) return ''
+
+    str = String(str)
+    let article
+    if (Strings.startsWithVowel(str)) {
+      article = (opts && opts.vowel) || 'an'
+    } else {
+      article = (opts && opts.consonant) || 'a'
+    }
+
+    const locale = opts && opts.locale
+    if (Strings.isUpper(str.charAt(0), locale)) {
+      article = Strings.toFirstLetterUpper(article, locale)
+    }
+    return (article ? article + ' ' : '') + str
+  }
+
   static abbreviate (str, singleWordSize) {
     if (!str) return ''
     const words = String(str).replace(WHITESPACE_EQUIV_REGEX_G, ' ').replace(IGNORED_CHARS_REGEX_G, '').split(/\s/)
@@ -132,7 +159,7 @@ class Strings {
       // first char only if 4 chars e.g. 'unit' -> 'u'
       // if (w.length === 4) return w[0]
       // first 3 chars if ends in vowel e.g. 'volume' -> 'vol', 'revenue' -> 'rev'
-      if (VOWEL_REGEX.test(w.slice(-1))) return w.slice(0, singleWordSize)
+      if (Strings.isVowel(w.slice(-1))) return w.slice(0, singleWordSize)
       // otherwise take first char + next two consonants
       return w.slice(0, 1) + w.slice(1).replace(VOWEL_REGEX_G, '').slice(0, singleWordSize - 1)
     }
@@ -149,6 +176,7 @@ class Strings {
   // - min (integer, no default) to specify the minimum number of chars returned (if possible) when abbreviation is used
   // - max (integer, no default) to specify the maximum number of chars allowed before abbreviation is used
   // - includeCount (boolean, default false) to include count as formatted integer in returned string (requires count option)
+  // - withArticle (boolean, default false) to prefix returned string with 'a'/'an' (or with given `consonant`/`vowel` opts)
   static get (strings, key, opts) {
     // allow first two args to be interchangeable
     if (typeof strings === 'string') {
@@ -215,7 +243,13 @@ class Strings {
     if (opts.lc) val = Strings.toLower(val, locale)
     else if (opts.uc) val = Strings.toUpper(val, locale)
     else if (opts.flu) val = Strings.toFirstLetterUpper(val, locale)
-    return opts.abbrev || (!isNaN(max) && String(val).length > max) ? Strings.abbreviate(val, opts.min) : val
+
+    if (opts.abbrev || (!isNaN(max) && String(val).length > max)) return Strings.abbreviate(val, opts.min)
+
+    if (opts.withArticle) {
+      return Strings.withArticle(val, Object.assign({}, opts, { locale }))
+    }
+    return val
   }
 
   // valid opts:
