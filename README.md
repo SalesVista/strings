@@ -106,6 +106,9 @@ For convenience, the first two arguments are interchangeable.
 - `abbrev` (boolean): transform the display string to its abbreviated form
 - `max` (number): conditionally abbreviate the display string if it has more than this number of characters
 - `min` (number): if abbreviation is required, this specifies the desired number of characters for the abbreviation (only applies to single-word display strings) - internally passed as the 2nd argument to `Strings.abbreviate(str, singleWordSize)`, see docs there
+- `withArticle` (boolean, default `false`): whether to prefix the custom string with "a" or "an", based on if the custom string starts with a vowel (aeiou) or not
+- `consonant` (string): customize the article used as a prefix when `withArticle` is `true` and the custom string starts with a consonant - the given string will be used instead of "a"
+- `vowel` (string): customize the article used as a prefix when `withArticle` is `true` and the custom string starts with a vowel - the given string will be used instead of "an"
 - `strict` (boolean, default `true`): whether keys should be interpreted strictly (required in strings or defaults) or loosely (not required in strings or defaults) - in strict mode, an empty string will be returned when key is not found; in loose mode, the key will be used as the value when key is not found
 - `locale` (string or array): the user's locale e.g. `'en-US'` or `'en_US'`
 
@@ -206,6 +209,14 @@ Attempts to format the given integer into a string per the given locale.
 
 Returns a boolean indicating whether the given string is uppercase (in the given locale) or not.
 
+### `Strings.isVowel(char, includeY = true)`
+
+Returns a boolean indicating if the given character is a vowel or not.
+
+By default, "y" is considered a vowel; to exclude "y", pass `false` as the 2nd argument.
+
+If you pass a string with more than one character for the 1st argument, this function performs a "contains vowel" check.
+
 ### `Strings.normalizeLocale(locale)`
 
 Attempts to normalize the given locale string into the format expected by [`toLocaleUpperCase`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleUpperCase) or [`toLocaleLowerCase`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/toLocaleLowerCase).
@@ -229,6 +240,12 @@ Supported options include:
 - `includeCount` (boolean, default `true`): include the formatted count in the returned string
 - `locale` (string or array): to format the integer and respect case-sensitivity in a language-specific way
 
+### `Strings.startsWithVowel(str)`
+
+Returns a boolean indicating if the given string starts with a vowel.
+
+Note that "y" is not considered a vowel by this function.
+
 ### `Strings.toLower(str, locale)`
 
 Attempts to safely transform the given string into lowercase. If a locale is given, it will be normalized. If the locale-specific operation fails, it will fall back to a locale-agnostic operation.
@@ -247,6 +264,17 @@ Supported options include:
 ### `Strings.toUpper(str, locale)`
 
 Attempts to safely transform the given string into uppercase. If a locale is given, it will be normalized. If the locale-specific operation fails, it will fall back to a locale-agnostic operation.
+
+### `Strings.withArticle(str, opts)`
+
+Return the given string prefixed with an appropriate article - either "a" (for strings starting with a consonant) or "an" (for strings starting with a vowel). E.g. turns "sale" into "a sale", or "event" into "an event".
+
+If the given string starts with an uppercase letter, the first letter of the article will be transformed to uppercase as well.
+
+Supports the following options:
+- `consonant` (string, default `'a'`): customize the article used for strings starting with a consonant
+- `vowel` (string, default `'an'`): customize the article used for strings starting with a vowel
+- `locale` (string or array): to respect case-sensitivity in a language-specific way
 
 ## Releasing
 
