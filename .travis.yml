@@ -1,7 +1,8 @@
-sudo: false
 language: node_js
 node_js:
   - 'node'
   - 'lts/*'
-  - 'lts/dubnium'
+  - 'lts/erbium'
+os: linux
+dist: bionic # bionic = Ubuntu 18.04 LTS, focal = Ubuntu 20.04 LTS
 after_success: npm run coverage
