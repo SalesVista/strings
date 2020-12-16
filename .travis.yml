@@ -3,5 +3,5 @@ language: node_js
 node_js:
   - 'node'
   - 'lts/*'
-  - 'lts/dubnium'
+  - 'lts/erbium'
 after_success: npm run coverage
