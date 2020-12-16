@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.7.0](https://github.com/SalesVista/strings/compare/v2.6.0...v2.7.0) (2020-12-16)
+
+
+### Features
+
+* add withArticle option and secondary api ([#13](https://github.com/SalesVista/strings/issues/13)) ([81c947a](https://github.com/SalesVista/strings/commit/81c947afc32100debb056942d5c18d0c3045b89b))
+
 ## [2.6.0](https://github.com/SalesVista/strings/compare/v2.5.0...v2.6.0) (2020-03-13)
 
 
