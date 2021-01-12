@@ -9,16 +9,15 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 12
           - 14
+          - 12
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-          check-latest: true
       - run: npm install
-      - run: npm run test
+      - run: npm test
       - run: npm run coverage
         env:
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
