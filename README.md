@@ -188,6 +188,7 @@ Shortcut to get the plural value defined for `key`. If a singular value is defin
 - `Strings.RULE`
 - `Strings.SALE`
 - `Strings.TEAM`
+- `Strings.TRANSACTION_DATE`
 - `Strings.UNIT`
 - `Strings.VOLUME`
 
