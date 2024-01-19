@@ -9,7 +9,7 @@
   "scripts": {
     "prepare": "babel src -d lib",
     "pretest": "standard && npm run prepare",
-    "test": "tap --cov test.js",
+    "test": "tap --reporter=classic --cov test.js",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "html": "nyc report --reporter=html && open coverage/index.html",
     "release": "standard-version"
