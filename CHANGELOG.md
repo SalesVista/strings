@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.8.0](https://github.com/SalesVista/strings/compare/v2.7.0...v2.8.0) (2024-01-19)
+
+
+### Features
+
+* add Transaction Date ([#17](https://github.com/SalesVista/strings/issues/17)) ([0c2d127](https://github.com/SalesVista/strings/commit/0c2d12750f4843f75f9c0105a3c94a7bf9fe7a99))
+
 ## [2.7.0](https://github.com/SalesVista/strings/compare/v2.6.0...v2.7.0) (2020-12-16)
 
 

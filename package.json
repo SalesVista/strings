@@ -1,6 +1,6 @@
 {
   "name": "@salesvista/strings",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "description": "Library to easily consume customizable display strings",
   "main": "lib/index.js",
   "files": [
