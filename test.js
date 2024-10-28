@@ -399,6 +399,7 @@ const strings = {
     singular: 'Profit',
     plural: 'Profit'
   },
+  [Strings.OTHER_COMP]: 'Restricted Stock Unit',
   [Strings.PLAN]: 'Program',
   [Strings.QUOTA]: {
     one: 'Plan',
@@ -826,6 +827,7 @@ tap.test('instance get', t => {
   t.strictEqual(s.get(Strings.ANNUAL_CONTRACT_VALUE, { abbrev: true }), 'ACV')
   t.strictEqual(d.get(Strings.TRANSACTION_DATE, { abbrev: true }), 'TD')
   t.strictEqual(d.get(Strings.OTHER_COMP, { abbrev: true }), 'OC')
+  t.strictEqual(s.get(Strings.OTHER_COMP, { abbrev: true }), 'RSU')
 
   // 2rd arg object as opts with plural boolean and flu boolean
   t.strictEqual(d.get(Strings.REPORT, { plural: false, flu: true }), 'Report')
@@ -869,6 +871,7 @@ tap.test('instance getSingular', t => {
   t.strictEqual(s.getSingular(Strings.QUOTA), 'Plan')
   t.strictEqual(d.getSingular(Strings.ANNUAL_CONTRACT_VALUE), 'Annual Contract Value')
   t.strictEqual(s.getSingular(Strings.ANNUAL_CONTRACT_VALUE), 'Annual Contract Value')
+  t.strictEqual(s.getSingular(Strings.OTHER_COMP), 'Restricted Stock Unit')
   t.strictEqual(d.getSingular(invalidKey), '')
   t.strictEqual(s.getSingular(invalidKey), '')
 
@@ -902,6 +905,7 @@ tap.test('instance getPlural', t => {
   t.strictEqual(s.getPlural(Strings.QUOTA), 'Plans')
   t.strictEqual(d.getPlural(Strings.ANNUAL_CONTRACT_VALUE), 'Annual Contract Value')
   t.strictEqual(s.getPlural(Strings.ANNUAL_CONTRACT_VALUE), 'Annual Contract Value')
+  t.strictEqual(s.getPlural(Strings.OTHER_COMP), 'Restricted Stock Units')
   t.strictEqual(d.getPlural(invalidKey), '')
   t.strictEqual(s.getPlural(invalidKey), '')
 
