@@ -348,7 +348,10 @@ Strings.DEFAULTS = {
   [Strings.RULE]: 'Rule',
   [Strings.SALE]: 'Sale',
   [Strings.TRANSACTION_DATE]: 'Transaction Date',
-  [Strings.OTHER_COMP]: 'Other Compensation',
+  [Strings.OTHER_COMP]: {
+    singular: 'Other Compensation',
+    plural: 'Other Compensation'
+  },
   [Strings.COMPENSATION]: {
     singular: 'Compensation',
     plural: 'Compensation'

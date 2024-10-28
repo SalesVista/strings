@@ -825,6 +825,7 @@ tap.test('instance get', t => {
   t.strictEqual(d.get(Strings.ANNUAL_CONTRACT_VALUE, { abbrev: true }), 'ACV')
   t.strictEqual(s.get(Strings.ANNUAL_CONTRACT_VALUE, { abbrev: true }), 'ACV')
   t.strictEqual(d.get(Strings.TRANSACTION_DATE, { abbrev: true }), 'TD')
+  t.strictEqual(d.get(Strings.OTHER_COMP, { abbrev: true }), 'OC')
 
   // 2rd arg object as opts with plural boolean and flu boolean
   t.strictEqual(d.get(Strings.REPORT, { plural: false, flu: true }), 'Report')
@@ -967,6 +968,8 @@ tap.test('defaults', t => {
   t.strictEqual(d.getPlural(Strings.SALE), 'Sales')
   t.strictEqual(d.getSingular(Strings.TRANSACTION_DATE), 'Transaction Date')
   t.strictEqual(d.getPlural(Strings.TRANSACTION_DATE), 'Transaction Dates')
+  t.strictEqual(d.getSingular(Strings.OTHER_COMP), 'Other Compensation')
+  t.strictEqual(d.getPlural(Strings.OTHER_COMP), 'Other Compensation')
   t.strictEqual(d.getSingular(Strings.COMPENSATION), 'Compensation')
   t.strictEqual(d.getPlural(Strings.COMPENSATION), 'Compensation')
   t.strictEqual(d.getSingular(Strings.REPORT), 'Report')
