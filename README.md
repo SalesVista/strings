@@ -179,6 +179,7 @@ Shortcut to get the plural value defined for `key`. If a singular value is defin
 - `Strings.EXTENDED_AMOUNT`
 - `Strings.GROSS_MARGIN`
 - `Strings.MEMBER`
+- `Strings.OTHER_COMP`
 - `Strings.PLAN`
 - `Strings.PRODUCT`
 - `Strings.PUBLISHED`
