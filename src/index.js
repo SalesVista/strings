@@ -307,6 +307,7 @@ Strings.QUOTA = 'quota'
 Strings.RULE = 'rule'
 Strings.SALE = 'sale'
 Strings.TRANSACTION_DATE = 'transaction_date'
+Strings.OTHER_COMP = 'other_comp'
 Strings.COMPENSATION = 'compensation'
 Strings.REPORT = 'report'
 Strings.DRAFT = 'draft'
@@ -347,6 +348,10 @@ Strings.DEFAULTS = {
   [Strings.RULE]: 'Rule',
   [Strings.SALE]: 'Sale',
   [Strings.TRANSACTION_DATE]: 'Transaction Date',
+  [Strings.OTHER_COMP]: {
+    singular: 'Other Compensation',
+    plural: 'Other Compensation'
+  },
   [Strings.COMPENSATION]: {
     singular: 'Compensation',
     plural: 'Compensation'
