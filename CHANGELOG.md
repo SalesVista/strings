@@ -1,6 +1,13 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [2.9.0](https://github.com/SalesVista/strings/compare/v2.8.0...v2.9.0) (2024-10-29)
+
+
+### Features
+
+* add other comp to strings lib ([#18](https://github.com/SalesVista/strings/issues/18)) ([e22b796](https://github.com/SalesVista/strings/commit/e22b79683bcd2de43290f2553e13b79b4204a364))
 
 ## [2.8.0](https://github.com/SalesVista/strings/compare/v2.7.0...v2.8.0) (2024-01-19)
 
